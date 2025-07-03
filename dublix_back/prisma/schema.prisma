@@ -1,0 +1,237 @@
+// Schéma Prisma pour BioQr-Suivi
+// Système de suivi des équipements médicaux
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Énumérations
+enum RoleType {
+  ADMINISTRATEUR
+  TECHNICIEN
+  UTILISATEUR
+}
+
+enum StatutEquipement {
+  FONCTIONNEL
+  EN_PANNE
+  HORS_SERVICE
+}
+
+enum TypeIntervention {
+  MAINTENANCE
+  REPARATION
+  INSPECTION
+}
+
+enum StatutNotification {
+  NON_LUE
+  LUE
+  ARCHIVEE
+}
+
+enum TypeEvenement {
+  CREATION_EQUIPEMENT
+  MODIFICATION_EQUIPEMENT
+  SIGNALEMENT_PANNE
+  INTERVENTION_PROGRAMMEE
+  INTERVENTION_TERMINEE
+}
+
+enum StatutModification {
+  EN_ATTENTE
+  APPROUVEE
+  REJETEE
+}
+
+// Modèle utilisateur (tous les rôles)
+model Utilisateur {
+  id               String    @id @default(cuid())
+  nom              String    @db.VarChar(100)
+  prenom           String    @db.VarChar(100)
+  role             RoleType
+  telephone        String?   @db.VarChar(20)
+  adresse          String?   @db.Text
+  photo            String?   @db.VarChar(255)
+  email            String?   @unique @db.VarChar(150)
+  motDePasse       String    @db.VarChar(255)
+  dateCreation     DateTime  @default(now())
+  dateModification DateTime  @updatedAt
+  actif            Boolean   @default(true)
+
+  // Relations
+  servicesResponsables      Service[]                   @relation("ResponsableService")
+  equipementsCreés          Equipement[]                @relation("CreatedBy")
+  equipementsModifiés       Equipement[]                @relation("UpdatedBy")
+  interventionsSignalées    HistoriqueIntervention[]    @relation("SignalePar")
+  interventionsRealisées    HistoriqueIntervention[]    @relation("IntervenantId")
+  validationsInterventions  HistoriqueIntervention[]    @relation("ValideePar")
+  notifications             Notification[]
+  evenements                Evenement[]
+  modificationsEnAttente    ModificationEnAttente[]     @relation("TechnicienModification")
+  validationsModifications  ModificationEnAttente[]     @relation("ValidateurModification")
+
+  @@map("utilisateurs")
+}
+
+// Modèle service médical
+model Service {
+  id               String    @id @default(cuid())
+  nom              String    @unique @db.VarChar(100)
+  description      String?   @db.Text
+  responsableId    String?
+  dateCreation     DateTime  @default(now())
+
+  // Relations
+  responsable      Utilisateur?  @relation("ResponsableService", fields: [responsableId], references: [id])
+  equipements      Equipement[]
+
+  @@map("services")
+}
+
+// Modèle équipement
+model Equipement {
+  id                        String              @id @default(cuid())
+  nom                       String              @db.VarChar(200)
+  modele                    String?             @db.VarChar(150)
+  marque                    String?             @db.VarChar(100)
+  numeroSerie               String?             @unique @db.VarChar(100)
+  presentation              String?             @db.Text // Limité à ~300 mots côté application
+  serviceId                 String?
+  anneeFabrication          Int?
+  statut                    StatutEquipement    @default(FONCTIONNEL)
+  dateAjout                 DateTime            @default(now())
+  dateInstallation          DateTime?           @db.Date
+  dateDerniereIntervention  DateTime?
+  nombreExemplaires         Int                 @default(1)
+  qrcode                    String              @unique @db.VarChar(255)
+  createdBy                 String?
+  updatedBy                 String?
+  dateModification          DateTime            @updatedAt
+
+  // Relations
+  service                   Service?                    @relation(fields: [serviceId], references: [id])
+  createurUtilisateur       Utilisateur?                @relation("CreatedBy", fields: [createdBy], references: [id])
+  modificateurUtilisateur   Utilisateur?                @relation("UpdatedBy", fields: [updatedBy], references: [id])
+  historiqueInterventions   HistoriqueIntervention[]
+  notifications             Notification[]
+  evenements                Evenement[]
+  modificationsEnAttente    ModificationEnAttente[]
+
+  @@map("equipements")
+}
+
+// Modèle historique des interventions
+model HistoriqueIntervention {
+  id                        String              @id @default(cuid())
+  equipementId              String
+  dateSignalement           DateTime            @default(now())
+  dateIntervention          DateTime?
+  signalePar                String?
+  intervenantId             String?
+  typeIntervention          TypeIntervention?
+  pannesSignalees           String?             @db.Text
+  pannesConstatees          String?             @db.Text
+  diagnosticsPoses          String?             @db.Text
+  piecesRechange            String?             @db.Text
+  statutApresIntervention   StatutEquipement?
+  conclusions               String?             @db.Text
+  dateCreation              DateTime            @default(now())
+  dateModification          DateTime            @updatedAt
+  interventionValidee       Boolean             @default(false)
+  valideeParId              String?
+
+  // Relations
+  equipement                Equipement          @relation(fields: [equipementId], references: [id], onDelete: Cascade)
+  signalantUtilisateur      Utilisateur?        @relation("SignalePar", fields: [signalePar], references: [id])
+  intervenantUtilisateur    Utilisateur?        @relation("IntervenantId", fields: [intervenantId], references: [id])
+  validateurUtilisateur     Utilisateur?        @relation("ValideePar", fields: [valideeParId], references: [id])
+  notifications             Notification[]
+  evenements                Evenement[]
+
+  @@map("historique_interventions")
+}
+
+// Modèle notification
+model Notification {
+  id                  String               @id @default(cuid())
+  utilisateurId       String
+  titre               String               @db.VarChar(200)
+  message             String               @db.Text
+  typeNotification    String?              @db.VarChar(50)
+  statut              StatutNotification   @default(NON_LUE)
+  equipementId        String?
+  interventionId      String?
+  dateCreation        DateTime             @default(now())
+  dateLecture         DateTime?
+
+  // Relations
+  utilisateur         Utilisateur          @relation(fields: [utilisateurId], references: [id], onDelete: Cascade)
+  equipement          Equipement?          @relation(fields: [equipementId], references: [id])
+  intervention        HistoriqueIntervention? @relation(fields: [interventionId], references: [id])
+
+  @@map("notifications")
+}
+
+// Modèle événement
+model Evenement {
+  id                String           @id @default(cuid())
+  utilisateurId     String
+  typeEvenement     TypeEvenement
+  titre             String           @db.VarChar(200)
+  description       String?          @db.Text
+  dateEvenement     DateTime
+  equipementId      String?
+  interventionId    String?
+  dateCreation      DateTime         @default(now())
+  rappelActive      Boolean          @default(false)
+  dateRappel        DateTime?
+
+  // Relations
+  utilisateur       Utilisateur      @relation(fields: [utilisateurId], references: [id], onDelete: Cascade)
+  equipement        Equipement?      @relation(fields: [equipementId], references: [id])
+  intervention      HistoriqueIntervention? @relation(fields: [interventionId], references: [id])
+
+  @@map("evenements")
+}
+
+// Modèle modifications en attente (pour les techniciens)
+model ModificationEnAttente {
+  id                      String              @id @default(cuid())
+  equipementId            String
+  technicienId            String
+  champsModifies          Json                // Stockage des modifications en JSON
+  datedemande             DateTime            @default(now())
+  statut                  StatutModification  @default(EN_ATTENTE)
+  commentaireTechnicien   String?             @db.Text
+  valideeParId            String?
+  dateValidation          DateTime?
+  commentaireValidation   String?             @db.Text
+
+  // Relations
+  equipement              Equipement          @relation(fields: [equipementId], references: [id], onDelete: Cascade)
+  technicien              Utilisateur         @relation("TechnicienModification", fields: [technicienId], references: [id])
+  validateur              Utilisateur?        @relation("ValidateurModification", fields: [valideeParId], references: [id])
+
+  @@map("modifications_en_attente")
+}
+
+// Index pour optimiser les performances
+// Note: Prisma génère automatiquement des index pour les clés étrangères et les champs unique
+
+// Index personnalisés pour les requêtes fréquentes
+// Ces index peuvent être ajoutés via des migrations personnalisées si nécessaire
+// - idx_utilisateurs_role sur utilisateurs(role)
+// - idx_equipements_service sur equipements(serviceId)
+// - idx_equipements_statut sur equipements(statut)
+// - idx_historique_equipement sur historique_interventions(equipementId)
+// - idx_historique_date_signalement sur historique_interventions(dateSignalement)
+// - idx_notifications_utilisateur sur notifications(utilisateurId)
+// - idx_notifications_statut sur notifications(statut)
+// - idx_evenements_utilisateur sur evenements(utilisateurId)
+// - idx_evenements_date sur evenements(dateEvenement)
