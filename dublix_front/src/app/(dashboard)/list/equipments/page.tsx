@@ -4,6 +4,7 @@ import { useState } from "react";
 import EquipementCard from "@/components/EquipmentCard";
 import { equipmentsData as equi } from "@/lib/data";
 import PopUpAjouterEquipement from "@/components/PopUpAjouterEquipement";
+import Pagination from "@/components/Pagination";
 
 interface EquiProps {
     equipId: string;
@@ -38,7 +39,6 @@ const ListEquipementPage = () => {
 
     return (
         <div className="m-6">
-            <PopUpAjouterEquipement />
             {/* Category Filter Section */}
             <div className="mb-6">
                 <h2 className="text-lg font-semibold text-[#333652] mb-4">
@@ -70,9 +70,10 @@ const ListEquipementPage = () => {
                     </button>
                 )}
             </div>
-
+            
+            <PopUpAjouterEquipement />
             {/* Equipment Grid Section */}
-            <div className="mb-4">
+            <div className="mb-4 mt-4">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-lg font-semibold text-[#333652]">
                         {selectedCategory ? `Équipements - ${selectedCategory}` : "Tous les équipements"}
@@ -97,6 +98,7 @@ const ListEquipementPage = () => {
                     )}
                 </div>
             </div>
+            <Pagination />
         </div>
     );
 };

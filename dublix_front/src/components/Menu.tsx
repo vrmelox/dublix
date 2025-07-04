@@ -1,6 +1,9 @@
+"use client"
 import Link from "next/link";
 import Image from "next/image";
 import { role } from "@/lib/data";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const menuItems = [
   {
@@ -33,14 +36,8 @@ const menuItems = [
       {
         icon: "/stats.png",
         label: "Statistiques",
-        href: "/list/attendance",
+        href: "/statistiques",
         visible: ["admin", "technician"],
-      },
-      {
-        icon: "/calendar.png",
-        label: "Events",
-        href: "/list/events",
-        visible: ["admin","technician"],
       },
       {
         icon: "/journal.png",
@@ -82,27 +79,39 @@ const menuItems = [
 ];
 
 const Menu = () => {
+  const pathname = usePathname();
   return (
     <div className="mt-4 text-sm">
       {menuItems.map(i =>(
         <div className="flex flex-col gap-2" key={i.title}>
-          <span className="hidden lg:block text-gray-400 font-light my-4 text-xs uppercase tracking-wider">{i.title}</span>
+          <span className="hidden lg:block text-gray-400 font-light my-4">{i.title}</span>
           {i.items.map(item => {
             if (item.visible.includes(role)) {
+            const isActive = pathname === item.href;
               return (
                 <Link 
                   href={item.href} 
                   key={item.label} 
-                  className="flex items-center justify-center lg:justify-start gap-4 text-gray-600 py-3 px-3 rounded-xl hover:bg-gray-50 hover:text-gray-800 transition-all duration-200 group"
+                  className={`flex items-center justify-center lg:justify-start gap-4 py-3 px-3 rounded-xl transition-all duration-200 group ${
+                    isActive 
+                      ? 'bg-blue-50 text-blue-600 shadow-sm border border-blue-200' 
+                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800'
+                  }`}
                 >
-                  <Image 
-                    src={item.icon} 
-                    alt="" 
-                    width={20} 
-                    height={20}
-                    className="opacity-70 group-hover:opacity-100 transition-opacity"
-                  />
-                  <span className="hidden lg:block font-medium">{item.label}</span>
+                  <div className="flex-shrink-0">
+                    <Image 
+                      src={item.icon} 
+                      alt="" 
+                      width={32}
+                      height={32}
+                      className={`w-8 h-8 sm:w-9 sm:h-9 lg:w-8 lg:h-8 p-1 rounded-md shadow-sm transition-all duration-200 object-contain ${
+                        isActive 
+                          ? 'bg-blue-100 border border-blue-300' 
+                          : 'bg-gray-200 lg:bg-gray-300'
+                      }`}
+                    />
+                  </div>
+                  <span className="hidden lg:block">{item.label}</span>
                 </Link>
               )
             }
@@ -112,5 +121,4 @@ const Menu = () => {
     </div>
   )
 }
-
 export default Menu;
