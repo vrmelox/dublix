@@ -619,454 +619,502 @@ export const usersData = [
 export const equipmentsData = [
   {
     equipId: "EQP001",
-    name: "Moniteur Cardiaque Philips",
-    department: ["Cardiologie", "Réanimation"],
+    nom: "Scanner Tomodensimotétrie",
+    modèle: "Vrmelox",
+    services: ["Cardiologie", "Réanimation"],
     installationDate: "2023-01-15",
     addedDate: "2023-01-20",
     lastModifiedDate: "2024-04-10",
-    photo: "https://images.pexels.com/photos/40568/medical-equipment-health-hospital-40568.jpeg"
+    photo: "/equips/scanner-tomo.png",
+    lien: "",
+    qrcode: "",
+    description: "Le scanner tomodensitométrique est un appareil d'imagerie médicale avancé qui permet de visualiser les structures internes du corps humain en trois dimensions. Il est utilisé pour diagnostiquer des lésions internes, des tumeurs ou des anomalies vasculaires. Le patient est allongé sur une table mobile qui passe à travers un anneau rotatif émettant des rayons X. Il est essentiel de limiter les mouvements pendant l'examen. Les précautions incluent la protection contre les radiations, notamment chez les femmes enceintes, et la gestion des allergies au produit de contraste injecté parfois nécessaire."
   },
   {
     equipId: "EQP002",
-    name: "Scanner Toshiba Aquilion",
-    department: ["Radiologie"],
+    nom: "Microscope Electronique à Balayage",
+    modèle: "Sony MEB",
+    services: ["Radiologie"],
     installationDate: "2022-07-03",
     addedDate: "2022-07-10",
     lastModifiedDate: "2023-12-05",
-    photo: "https://images.pexels.com/photos/2632109/pexels-photo-2632109.jpeg"
+    photo: "/equips/meb-fib.png",
+    lien: "",
+    qrcode: "",
+    description: "Le microscope électronique à balayage (MEB) permet d’observer des échantillons à une échelle nanométrique en utilisant un faisceau d’électrons. Il est essentiel dans l’analyse des tissus, des cellules ou des matériaux biomédicaux. L’échantillon doit être préparé avec soin, souvent recouvert d’un film conducteur. Il nécessite un environnement à vide. Les précautions incluent l’évitement des champs magnétiques externes et une bonne ventilation pour évacuer les gaz émis pendant l'observation."
   },
   {
     equipId: "EQP003",
-    name: "Pompe à perfusion Baxter",
-    department: ["Chirurgie", "Urgences"],
+    nom: "Lampe chirurgicale Baxter",
+    modèle: "Baxter",
+    services: ["Chirurgie", "Urgences"],
     installationDate: "2023-03-10",
     addedDate: "2023-03-15",
     lastModifiedDate: "2024-02-25",
-    photo: "https://images.pexels.com/photos/853847/pexels-photo-853847.jpeg"
+    photo: "/equips/lamp-chrirur.png",
+    lien: "",
+    qrcode: "",
+    description: "La lampe chirurgicale Baxter est un dispositif d’éclairage utilisé en salle d’opération pour fournir un éclairage puissant, homogène et sans ombre. Elle permet aux chirurgiens de voir avec précision les zones opérées. Elle est souvent fixée au plafond et orientable à 360°. Il est important de vérifier régulièrement son intensité lumineuse, l’absence de dysfonctionnement mécanique et d’assurer une hygiène rigoureuse. Elle ne doit jamais être touchée à mains nues après usage, en raison de la chaleur dégagée."
   },
   {
     equipId: "EQP004",
-    name: "Ventilateur Respiratoire Dräger",
-    department: ["Réanimation", "Soins Intensifs"],
+    nom: "SangiPo Dräger",
+    modèle: "Dräger",
+    services: ["Réanimation", "Soins Intensifs"],
     installationDate: "2022-11-20",
     addedDate: "2022-11-25",
     lastModifiedDate: "2024-01-18",
-    photo: "https://images.pexels.com/photos/4407311/pexels-photo-4407311.jpeg"
+    photo: "/equips/sangipo.png",
+    lien: "",
+    qrcode: "",
+    description: "Le SangiPo Dräger est un appareil de surveillance et de gestion des perfusions sanguines, essentiel dans les services de soins intensifs. Il permet d’administrer avec précision du sang ou des dérivés à des patients en état critique. Il intègre des capteurs de débit, des alarmes de sécurité et peut être connecté à d’autres dispositifs de monitoring. L’utilisateur doit vérifier l’étanchéité des tubulures, respecter les protocoles de stérilisation et surveiller en permanence les paramètres pour éviter tout risque d’embolie ou de surdosage."
   },
   {
     equipId: "EQP005",
-    name: "Électrocardiographe GE",
-    department: ["Cardiologie", "Urgences"],
+    nom: "Echographe GE",
+    modèle: "GE Vrmelox",
+    services: ["Gynécologie"],
     installationDate: "2023-05-05",
     addedDate: "2023-05-10",
     lastModifiedDate: "2024-03-12",
-    photo: "https://images.pexels.com/photos/384576/pexels-photo-384576.jpeg"
+    photo: "/equips/echographe.png",
+    lien: "",
+    qrcode: "",
+    description: "L’échographe GE est un appareil d’imagerie utilisé principalement en gynécologie pour visualiser le fœtus, les organes reproducteurs ou détecter des anomalies. Il fonctionne par émission et réception d’ultrasons. L’opérateur applique un gel conducteur sur la peau pour améliorer la transmission des ondes. Cet appareil ne présente pas de risque pour la patiente mais nécessite un usage précis et des compétences en lecture d’images. Un nettoyage systématique de la sonde est requis après chaque usage pour éviter toute infection croisée."
   },
   {
     equipId: "EQP006",
-    name: "Appareil à rayons X Siemens",
-    department: ["Radiologie"],
+    nom: "Fréquenciomètre X Siemens",
+    modèle: "Siemens",
+    services: ["Radiologie", "Réanimation", "Soins Intensifs"],
     installationDate: "2022-09-15",
     addedDate: "2022-09-20",
     lastModifiedDate: "2023-11-30",
-    photo: "https://images.pexels.com/photos/273238/pexels-photo-273238.jpeg"
+    photo: "/equips/frequencio.png",
+    lien: "",
+    qrcode: "",
+    description: "Le fréquenciomètre X Siemens mesure la fréquence cardiaque et respiratoire du patient en temps réel. Il est utilisé dans les services de soins intensifs pour assurer une surveillance continue. Il peut être connecté à un moniteur central et inclut des alarmes en cas d’anomalies. Une bonne calibration et une pose correcte des électrodes sont nécessaires. Il faut éviter les interférences électriques et nettoyer les capteurs entre chaque usage."
   },
   {
     equipId: "EQP007",
-    name: "Incubateur néonatal Dräger",
-    department: ["Pédiatrie", "Néonatologie"],
+    nom: "Incubateur néonatal Dräger",
+    modèle: "Dräger",
+    services: ["Pédiatrie", "Néonatologie"],
     installationDate: "2023-04-22",
     addedDate: "2023-04-27",
     lastModifiedDate: "2024-05-01",
-    photo: "https://images.pexels.com/photos/263402/pexels-photo-263402.jpeg"
+    photo: "/equips/kimperi.png",
+    lien: "",
+    qrcode: "",
+    description: "L’incubateur néonatal Dräger est conçu pour maintenir les nouveau-nés prématurés dans un environnement stable, chaud et humidifié. Il contrôle la température, l’humidité et parfois l’oxygénation. Il est essentiel pour assurer la survie des bébés en soins intensifs. Des alarmes signalent les écarts de paramètres. Il est primordial d’assurer un nettoyage rigoureux entre chaque patient, de surveiller constamment les constantes du nourrisson et d’éviter toute manipulation excessive."
   },
   {
     equipId: "EQP008",
-    name: "Défibrillateur Zoll",
-    department: ["Urgences", "Réanimation"],
+    nom: "Chariot médical Zoll",
+    modèle: "Zoll",
+    services: ["Urgences", "Réanimation"],
     installationDate: "2023-02-14",
     addedDate: "2023-02-18",
     lastModifiedDate: "2024-03-22",
-    photo: "https://images.pexels.com/photos/1557237/pexels-photo-1557237.jpeg"
+    photo: "/equips/chariot_medical.png",
+    lien: "",
+    qrcode: "",
+    description: "Le chariot médical Zoll est un chariot multifonctions équipé pour les interventions d’urgence. Il contient du matériel de réanimation comme un défibrillateur, des seringues, des médicaments, et autres accessoires critiques. Il est organisé par compartiments pour une accessibilité rapide. Il doit être vérifié quotidiennement, réapprovisionné et sécurisé. Toute panne ou élément manquant peut compromettre une intervention vitale."
   },
   {
     equipId: "EQP009",
-    name: "Analyseur sanguin Roche",
-    department: ["Laboratoire", "Hématologie"],
+    nom: "Analyseur sanguin Roche",
+    modèle: "Roche",
+    services: ["Laboratoire", "Hématologie"],
     installationDate: "2022-08-30",
     addedDate: "2022-09-05",
     lastModifiedDate: "2024-02-10",
-    photo: "https://images.pexels.com/photos/2280569/pexels-photo-2280569.jpeg"
+    photo: "/equips/erlenmeyer.png",
+    lien: "",
+    qrcode: "",
+    description: "L’analyseur sanguin Roche permet d’effectuer des analyses complètes sur les échantillons de sang : numération globulaire, biochimie, sérologie, etc. Il est automatisé et offre une grande précision. L’échantillon est introduit dans une cartouche ou tube spécifique. Des calibrations régulières, l’utilisation de réactifs compatibles et le respect strict des procédures sont essentiels pour éviter toute erreur de diagnostic."
   },
   {
     equipId: "EQP010",
-    name: "Fauteuil roulant Invacare",
-    department: ["Accueil", "Orthopédie"],
+    nom: "Robot Laboratoire Invacare",
+    modèle: "Invacare",
+    services: ["Anesthésie", "Orthopédie"],
     installationDate: "2023-06-10",
     addedDate: "2023-06-12",
     lastModifiedDate: "2024-04-05",
-    photo: "https://images.pexels.com/photos/296302/pexels-photo-296302.jpeg"
+    photo: "/equips/robot_labo.png",
+    lien: "",
+    qrcode: "",
+    description: "Le robot de laboratoire Invacare automatise les tâches répétitives en laboratoire comme le tri, l’étiquetage, ou la préparation d’échantillons. Il améliore la productivité et réduit les erreurs humaines. Il doit être programmé correctement selon chaque protocole. Une formation du personnel est nécessaire pour éviter tout incident de manipulation. Il doit être maintenu propre et calibré périodiquement."
   },
-{
+  {
     equipId: "EQP011",
-    name: "Sonde échographique GE",
-    department: ["Radiologie", "Gynécologie"],
+    nom: "Bras robotique GE",
+    modèle: "GE Vrmelo",
+    services: ["Radiologie", "Gynécologie"],
     installationDate: "2023-01-08",
     addedDate: "2023-01-12",
     lastModifiedDate: "2024-03-01",
-    photo: "https://images.pexels.com/photos/384574/pexels-photo-384574.jpeg"
+    photo: "/equips/bras_robotique.png",
+    lien: "",
+    qrcode: "",
+    description: "Le bras robotique GE est utilisé pour positionner avec précision des sondes, des caméras ou des instruments médicaux dans le cadre de diagnostics ou d’interventions peu invasives. Il permet une grande flexibilité de mouvement et une précision accrue. Il est contrôlé par un opérateur formé via un logiciel. Il nécessite une calibration fréquente, une hygiène stricte et des tests de sécurité avant chaque utilisation."
   },
   {
     equipId: "EQP012",
-    name: "Chariot d'anesthésie Mindray",
-    department: ["Chirurgie", "Anesthésie"],
+    nom: "Système chirurgical Da Vinci Mindray",
+    modèle: "Mindray",
+    services: ["Chirurgie", "Anesthésie"],
     installationDate: "2022-12-18",
     addedDate: "2022-12-20",
     lastModifiedDate: "2023-12-22",
-    photo: "https://images.pexels.com/photos/263402/pexels-photo-263402.jpeg"
-  },
-  {
-    equipId: "EQP013",
-    name: "Thermomètre infrarouge Braun",
-    department: ["Accueil", "Pédiatrie"],
-    installationDate: "2023-05-05",
-    addedDate: "2023-05-07",
-    lastModifiedDate: "2024-02-14",
-    photo: "https://images.pexels.com/photos/40568/medical-equipment-health-hospital-40568.jpeg"
-  },
-  {
-    equipId: "EQP014",
-    name: "Table d'opération Maquet",
-    department: ["Chirurgie"],
-    installationDate: "2023-02-22",
-    addedDate: "2023-02-25",
-    lastModifiedDate: "2024-01-15",
-    photo: "https://images.pexels.com/photos/2632109/pexels-photo-2632109.jpeg"
-  },
-  {
-    equipId: "EQP015",
-    name: "Pompe à insuline Medtronic",
-    department: ["Endocrinologie", "Pédiatrie"],
-    installationDate: "2023-03-30",
-    addedDate: "2023-04-01",
-    lastModifiedDate: "2024-04-10",
-    photo: "https://images.pexels.com/photos/853847/pexels-photo-853847.jpeg"
-  },
-  {
-    equipId: "EQP016",
-    name: "Chaise roulante électrique Invacare",
-    department: ["Accueil", "Orthopédie"],
-    installationDate: "2023-04-05",
-    addedDate: "2023-04-08",
-    lastModifiedDate: "2024-05-05",
-    photo: "https://images.pexels.com/photos/296302/pexels-photo-296302.jpeg"
-  },
-  {
-    equipId: "EQP017",
-    name: "Microscope Leica",
-    department: ["Laboratoire", "Pathologie"],
-    installationDate: "2022-10-10",
-    addedDate: "2022-10-15",
-    lastModifiedDate: "2024-02-20",
-    photo: "https://images.pexels.com/photos/2280569/pexels-photo-2280569.jpeg"
-  },
-  {
-    equipId: "EQP018",
-    name: "Matériel d’aspiration portable",
-    department: ["Urgences", "Soins à domicile"],
-    installationDate: "2023-01-20",
-    addedDate: "2023-01-22",
-    lastModifiedDate: "2024-03-18",
-    photo: "https://images.pexels.com/photos/1557237/pexels-photo-1557237.jpeg"
-  },
-  {
-    equipId: "EQP019",
-    name: "Lit médicalisé Hill-Rom",
-    department: ["Pédiatrie", "Gériatrie"],
-    installationDate: "2023-06-01",
-    addedDate: "2023-06-04",
-    lastModifiedDate: "2024-04-20",
-    photo: "https://images.pexels.com/photos/4407311/pexels-photo-4407311.jpeg"
-  },
-  {
-    equipId: "EQP020",
-    name: "Oxymètre de pouls Nonin",
-    department: ["Urgences", "Réanimation"],
-    installationDate: "2023-03-12",
-    addedDate: "2023-03-15",
-    lastModifiedDate: "2024-02-28",
-    photo: "https://images.pexels.com/photos/384576/pexels-photo-384576.jpeg"
-  },
-{
-    equipId: "EQP021",
-    name: "Centrifugeuse Eppendorf",
-    department: ["Laboratoire", "Biochimie"],
-    installationDate: "2022-11-05",
-    addedDate: "2022-11-10",
-    lastModifiedDate: "2024-01-25",
-    photo: "https://images.pexels.com/photos/2280569/pexels-photo-2280569.jpeg"
-  },
-  {
-    equipId: "EQP022",
-    name: "Stéthoscope Littmann",
-    department: ["Cardiologie", "Urgences"],
-    installationDate: "2023-02-15",
-    addedDate: "2023-02-18",
-    lastModifiedDate: "2024-03-10",
-    photo: "https://images.pexels.com/photos/40568/medical-equipment-health-hospital-40568.jpeg"
-  },
-  {
-    equipId: "EQP023",
-    name: "Tensiomètre Omron",
-    department: ["Accueil", "Cardiologie"],
-    installationDate: "2023-04-25",
-    addedDate: "2023-04-28",
-    lastModifiedDate: "2024-04-15",
-    photo: "https://images.pexels.com/photos/384574/pexels-photo-384574.jpeg"
-  },
-  {
-    equipId: "EQP024",
-    name: "Échographe portable Philips",
-    department: ["Radiologie", "Urgences"],
-    installationDate: "2023-01-30",
-    addedDate: "2023-02-02",
-    lastModifiedDate: "2024-03-20",
-    photo: "https://images.pexels.com/photos/2632109/pexels-photo-2632109.jpeg"
-  },
-  {
-    equipId: "EQP025",
-    name: "Pompe à perfusion Baxter",
-    department: ["Chirurgie", "Réanimation"],
-    installationDate: "2023-03-14",
-    addedDate: "2023-03-16",
-    lastModifiedDate: "2024-04-05",
-    photo: "https://images.pexels.com/photos/853847/pexels-photo-853847.jpeg"
-  },
-  {
-    equipId: "EQP026",
-    name: "Respirateur Dräger Evita",
-    department: ["Réanimation", "Soins Intensifs"],
-    installationDate: "2022-10-28",
-    addedDate: "2022-11-01",
-    lastModifiedDate: "2024-02-28",
-    photo: "https://images.pexels.com/photos/4407311/pexels-photo-4407311.jpeg"
-  },
-  {
-    equipId: "EQP027",
-    name: "Analyseur biochimique Roche",
-    department: ["Laboratoire"],
-    installationDate: "2022-08-20",
-    addedDate: "2022-08-25",
-    lastModifiedDate: "2024-01-10",
-    photo: "https://images.pexels.com/photos/2280569/pexels-photo-2280569.jpeg"
-  },
-  {
-    equipId: "EQP028",
-    name: "Fauteuil roulant manuel Invacare",
-    department: ["Accueil", "Orthopédie"],
-    installationDate: "2023-06-15",
-    addedDate: "2023-06-17",
-    lastModifiedDate: "2024-05-12",
-    photo: "https://images.pexels.com/photos/296302/pexels-photo-296302.jpeg"
-  },
-  {
-    equipId: "EQP029",
-    name: "Défibrillateur Cardiac Science",
-    department: ["Urgences", "Réanimation"],
-    installationDate: "2023-02-08",
-    addedDate: "2023-02-12",
-    lastModifiedDate: "2024-03-25",
-    photo: "https://images.pexels.com/photos/1557237/pexels-photo-1557237.jpeg"
-  },
-  {
-    equipId: "EQP030",
-    name: "Lit médicalisé électrique Hill-Rom",
-    department: ["Pédiatrie", "Gériatrie"],
-    installationDate: "2023-05-20",
-    addedDate: "2023-05-22",
-    lastModifiedDate: "2024-04-30",
-    photo: "https://images.pexels.com/photos/4407311/pexels-photo-4407311.jpeg"
-  },
-{
-    equipId: "EQP031",
-    name: "Analyseur hématologique Sysmex",
-    department: ["Laboratoire", "Hématologie"],
-    installationDate: "2022-09-12",
-    addedDate: "2022-09-15",
-    lastModifiedDate: "2024-02-05",
-    photo: "https://images.pexels.com/photos/2280569/pexels-photo-2280569.jpeg"
-  },
-  {
-    equipId: "EQP032",
-    name: "Système d’aspiration portable Medela",
-    department: ["Urgences", "Soins à domicile"],
-    installationDate: "2023-03-05",
-    addedDate: "2023-03-07",
-    lastModifiedDate: "2024-03-29",
-    photo: "https://images.pexels.com/photos/1557237/pexels-photo-1557237.jpeg"
-  },
-  {
-    equipId: "EQP033",
-    name: "Thermomètre numérique Omron",
-    department: ["Accueil", "Pédiatrie"],
-    installationDate: "2023-06-10",
-    addedDate: "2023-06-12",
-    lastModifiedDate: "2024-05-01",
-    photo: "https://images.pexels.com/photos/40568/medical-equipment-health-hospital-40568.jpeg"
-  },
-  {
-    equipId: "EQP034",
-    name: "Table d'examen Maquet",
-    department: ["Gynécologie", "Médecine générale"],
-    installationDate: "2023-04-15",
-    addedDate: "2023-04-18",
-    lastModifiedDate: "2024-04-10",
-    photo: "https://images.pexels.com/photos/2632109/pexels-photo-2632109.jpeg"
-  },
-  {
-    equipId: "EQP035",
-    name: "Pompe à perfusion Infusomat",
-    department: ["Chirurgie", "Réanimation"],
-    installationDate: "2023-02-20",
-    addedDate: "2023-02-23",
-    lastModifiedDate: "2024-03-30",
-    photo: "https://images.pexels.com/photos/853847/pexels-photo-853847.jpeg"
-  },
-  {
-    equipId: "EQP036",
-    name: "Ventilateur portable Philips",
-    department: ["Réanimation", "Urgences"],
-    installationDate: "2023-01-10",
-    addedDate: "2023-01-12",
-    lastModifiedDate: "2024-02-20",
-    photo: "https://images.pexels.com/photos/4407311/pexels-photo-4407311.jpeg"
-  },
-  {
-    equipId: "EQP037",
-    name: "Microscope optique Nikon",
-    department: ["Laboratoire", "Pathologie"],
-    installationDate: "2022-11-28",
-    addedDate: "2022-12-01",
-    lastModifiedDate: "2024-01-30",
-    photo: "https://images.pexels.com/photos/2280569/pexels-photo-2280569.jpeg"
-  },
-  {
-    equipId: "EQP038",
-    name: "Fauteuil roulant pliable",
-    department: ["Accueil", "Orthopédie"],
-    installationDate: "2023-05-25",
-    addedDate: "2023-05-28",
-    lastModifiedDate: "2024-04-25",
-    photo: "https://images.pexels.com/photos/296302/pexels-photo-296302.jpeg"
-  },
-  {
-    equipId: "EQP039",
-    name: "Défibrillateur automatisé Philips",
-    department: ["Urgences", "Réanimation"],
-    installationDate: "2023-03-18",
-    addedDate: "2023-03-20",
-    lastModifiedDate: "2024-03-28",
-    photo: "https://images.pexels.com/photos/1557237/pexels-photo-1557237.jpeg"
-  },
-  {
-    equipId: "EQP040",
-    name: "Lit électrique médicalisé",
-    department: ["Pédiatrie", "Gériatrie"],
-    installationDate: "2023-06-05",
-    addedDate: "2023-06-07",
-    lastModifiedDate: "2024-05-15",
-    photo: "https://images.pexels.com/photos/4407311/pexels-photo-4407311.jpeg"
-  },
-{
-    equipId: "EQP041",
-    name: "Analyseur d’urine Siemens",
-    department: ["Laboratoire", "Biochimie"],
-    installationDate: "2022-10-15",
-    addedDate: "2022-10-18",
-    lastModifiedDate: "2024-01-22",
-    photo: "https://images.pexels.com/photos/2280569/pexels-photo-2280569.jpeg"
-  },
-  {
-    equipId: "EQP042",
-    name: "Moniteur de signes vitaux Philips",
-    department: ["Réanimation", "Urgences"],
-    installationDate: "2023-01-25",
-    addedDate: "2023-01-28",
-    lastModifiedDate: "2024-03-10",
-    photo: "https://images.pexels.com/photos/4407311/pexels-photo-4407311.jpeg"
-  },
-  {
-    equipId: "EQP043",
-    name: "Pompe à perfusion volumétrique",
-    department: ["Chirurgie", "Soins intensifs"],
-    installationDate: "2023-04-10",
-    addedDate: "2023-04-12",
-    lastModifiedDate: "2024-04-08",
-    photo: "https://images.pexels.com/photos/853847/pexels-photo-853847.jpeg"
-  },
-  {
-    equipId: "EQP044",
-    name: "Ventilateur non invasif ResMed",
-    department: ["Réanimation", "Pneumologie"],
-    installationDate: "2023-02-05",
-    addedDate: "2023-02-08",
-    lastModifiedDate: "2024-02-28",
-    photo: "https://images.pexels.com/photos/4407311/pexels-photo-4407311.jpeg"
-  },
-  {
-    equipId: "EQP045",
-    name: "Microscope électronique JEOL",
-    department: ["Laboratoire", "Recherche"],
-    installationDate: "2022-07-20",
-    addedDate: "2022-07-25",
-    lastModifiedDate: "2024-01-05",
-    photo: "https://images.pexels.com/photos/2280569/pexels-photo-2280569.jpeg"
-  },
-  {
-    equipId: "EQP046",
-    name: "Fauteuil roulant électrique Invacare",
-    department: ["Accueil", "Orthopédie"],
-    installationDate: "2023-06-20",
-    addedDate: "2023-06-22",
-    lastModifiedDate: "2024-05-20",
-    photo: "https://images.pexels.com/photos/296302/pexels-photo-296302.jpeg"
-  },
-  {
-    equipId: "EQP047",
-    name: "Défibrillateur Zoll",
-    department: ["Urgences", "Réanimation"],
-    installationDate: "2023-03-22",
-    addedDate: "2023-03-25",
-    lastModifiedDate: "2024-04-01",
-    photo: "https://images.pexels.com/photos/1557237/pexels-photo-1557237.jpeg"
-  },
-  {
-    equipId: "EQP048",
-    name: "Lit médicalisé électrique Hill-Rom",
-    department: ["Pédiatrie", "Gériatrie"],
-    installationDate: "2023-05-30",
-    addedDate: "2023-06-01",
-    lastModifiedDate: "2024-05-25",
-    photo: "https://images.pexels.com/photos/4407311/pexels-photo-4407311.jpeg"
-  },
-  {
-    equipId: "EQP049",
-    name: "Analyseur de gaz sanguin ABL",
-    department: ["Laboratoire", "Réanimation"],
-    installationDate: "2022-11-10",
-    addedDate: "2022-11-12",
-    lastModifiedDate: "2024-02-15",
-    photo: "https://images.pexels.com/photos/2280569/pexels-photo-2280569.jpeg"
-  },
-  {
-    equipId: "EQP050",
-    name: "Moniteur cardiaque GE",
-    department: ["Cardiologie", "Réanimation"],
-    installationDate: "2023-03-05",
-    addedDate: "2023-03-07",
-    lastModifiedDate: "2024-04-10",
-    photo: "https://images.pexels.com/photos/4407311/pexels-photo-4407311.jpeg"
+    photo: "/equips/davinci_system.png",
+    lien: "",
+    qrcode: "",
+    description: "Le système chirurgical Da Vinci est un robot chirurgical permettant de réaliser des opérations complexes avec une extrême précision, par des incisions très réduites. Contrôlé à distance par un chirurgien via une console, il offre une vision 3D et une précision micrométrique. Il réduit les temps de convalescence et les risques post-opératoires. Des tests de sécurité, une stérilisation stricte et des compétences techniques élevées sont requis pour son usage."
   }
+//   {
+//     equipId: "EQP013",
+//     name: "Thermomètre infrarouge Braun",
+//     department: ["Accueil", "Pédiatrie"],
+//     installationDate: "2023-05-05",
+//     addedDate: "2023-05-07",
+//     lastModifiedDate: "2024-02-14",
+//     photo: "https://images.pexels.com/photos/40568/medical-equipment-health-hospital-40568.jpeg"
+//   },
+//   {
+//     equipId: "EQP014",
+//     name: "Table d'opération Maquet",
+//     department: ["Chirurgie"],
+//     installationDate: "2023-02-22",
+//     addedDate: "2023-02-25",
+//     lastModifiedDate: "2024-01-15",
+//     photo: "https://images.pexels.com/photos/2632109/pexels-photo-2632109.jpeg"
+//   },
+//   {
+//     equipId: "EQP015",
+//     name: "Pompe à insuline Medtronic",
+//     department: ["Endocrinologie", "Pédiatrie"],
+//     installationDate: "2023-03-30",
+//     addedDate: "2023-04-01",
+//     lastModifiedDate: "2024-04-10",
+//     photo: "https://images.pexels.com/photos/853847/pexels-photo-853847.jpeg"
+//   },
+//   {
+//     equipId: "EQP016",
+//     name: "Chaise roulante électrique Invacare",
+//     department: ["Accueil", "Orthopédie"],
+//     installationDate: "2023-04-05",
+//     addedDate: "2023-04-08",
+//     lastModifiedDate: "2024-05-05",
+//     photo: "https://images.pexels.com/photos/296302/pexels-photo-296302.jpeg"
+//   },
+//   {
+//     equipId: "EQP017",
+//     name: "Microscope Leica",
+//     department: ["Laboratoire", "Pathologie"],
+//     installationDate: "2022-10-10",
+//     addedDate: "2022-10-15",
+//     lastModifiedDate: "2024-02-20",
+//     photo: "https://images.pexels.com/photos/2280569/pexels-photo-2280569.jpeg"
+//   },
+//   {
+//     equipId: "EQP018",
+//     name: "Matériel d’aspiration portable",
+//     department: ["Urgences", "Soins à domicile"],
+//     installationDate: "2023-01-20",
+//     addedDate: "2023-01-22",
+//     lastModifiedDate: "2024-03-18",
+//     photo: "https://images.pexels.com/photos/1557237/pexels-photo-1557237.jpeg"
+//   },
+//   {
+//     equipId: "EQP019",
+//     name: "Lit médicalisé Hill-Rom",
+//     department: ["Pédiatrie", "Gériatrie"],
+//     installationDate: "2023-06-01",
+//     addedDate: "2023-06-04",
+//     lastModifiedDate: "2024-04-20",
+//     photo: "https://images.pexels.com/photos/4407311/pexels-photo-4407311.jpeg"
+//   },
+//   {
+//     equipId: "EQP020",
+//     name: "Oxymètre de pouls Nonin",
+//     department: ["Urgences", "Réanimation"],
+//     installationDate: "2023-03-12",
+//     addedDate: "2023-03-15",
+//     lastModifiedDate: "2024-02-28",
+//     photo: "https://images.pexels.com/photos/384576/pexels-photo-384576.jpeg"
+//   },
+// {
+//     equipId: "EQP021",
+//     name: "Centrifugeuse Eppendorf",
+//     department: ["Laboratoire", "Biochimie"],
+//     installationDate: "2022-11-05",
+//     addedDate: "2022-11-10",
+//     lastModifiedDate: "2024-01-25",
+//     photo: "https://images.pexels.com/photos/2280569/pexels-photo-2280569.jpeg"
+//   },
+//   {
+//     equipId: "EQP022",
+//     name: "Stéthoscope Littmann",
+//     department: ["Cardiologie", "Urgences"],
+//     installationDate: "2023-02-15",
+//     addedDate: "2023-02-18",
+//     lastModifiedDate: "2024-03-10",
+//     photo: "https://images.pexels.com/photos/40568/medical-equipment-health-hospital-40568.jpeg"
+//   },
+//   {
+//     equipId: "EQP023",
+//     name: "Tensiomètre Omron",
+//     department: ["Accueil", "Cardiologie"],
+//     installationDate: "2023-04-25",
+//     addedDate: "2023-04-28",
+//     lastModifiedDate: "2024-04-15",
+//     photo: "https://images.pexels.com/photos/384574/pexels-photo-384574.jpeg"
+//   },
+//   {
+//     equipId: "EQP024",
+//     name: "Échographe portable Philips",
+//     department: ["Radiologie", "Urgences"],
+//     installationDate: "2023-01-30",
+//     addedDate: "2023-02-02",
+//     lastModifiedDate: "2024-03-20",
+//     photo: "https://images.pexels.com/photos/2632109/pexels-photo-2632109.jpeg"
+//   },
+//   {
+//     equipId: "EQP025",
+//     name: "Pompe à perfusion Baxter",
+//     department: ["Chirurgie", "Réanimation"],
+//     installationDate: "2023-03-14",
+//     addedDate: "2023-03-16",
+//     lastModifiedDate: "2024-04-05",
+//     photo: "https://images.pexels.com/photos/853847/pexels-photo-853847.jpeg"
+//   },
+//   {
+//     equipId: "EQP026",
+//     name: "Respirateur Dräger Evita",
+//     department: ["Réanimation", "Soins Intensifs"],
+//     installationDate: "2022-10-28",
+//     addedDate: "2022-11-01",
+//     lastModifiedDate: "2024-02-28",
+//     photo: "https://images.pexels.com/photos/4407311/pexels-photo-4407311.jpeg"
+//   },
+//   {
+//     equipId: "EQP027",
+//     name: "Analyseur biochimique Roche",
+//     department: ["Laboratoire"],
+//     installationDate: "2022-08-20",
+//     addedDate: "2022-08-25",
+//     lastModifiedDate: "2024-01-10",
+//     photo: "https://images.pexels.com/photos/2280569/pexels-photo-2280569.jpeg"
+//   },
+//   {
+//     equipId: "EQP028",
+//     name: "Fauteuil roulant manuel Invacare",
+//     department: ["Accueil", "Orthopédie"],
+//     installationDate: "2023-06-15",
+//     addedDate: "2023-06-17",
+//     lastModifiedDate: "2024-05-12",
+//     photo: "https://images.pexels.com/photos/296302/pexels-photo-296302.jpeg"
+//   },
+//   {
+//     equipId: "EQP029",
+//     name: "Défibrillateur Cardiac Science",
+//     department: ["Urgences", "Réanimation"],
+//     installationDate: "2023-02-08",
+//     addedDate: "2023-02-12",
+//     lastModifiedDate: "2024-03-25",
+//     photo: "https://images.pexels.com/photos/1557237/pexels-photo-1557237.jpeg"
+//   },
+//   {
+//     equipId: "EQP030",
+//     name: "Lit médicalisé électrique Hill-Rom",
+//     department: ["Pédiatrie", "Gériatrie"],
+//     installationDate: "2023-05-20",
+//     addedDate: "2023-05-22",
+//     lastModifiedDate: "2024-04-30",
+//     photo: "https://images.pexels.com/photos/4407311/pexels-photo-4407311.jpeg"
+//   },
+// {
+//     equipId: "EQP031",
+//     name: "Analyseur hématologique Sysmex",
+//     department: ["Laboratoire", "Hématologie"],
+//     installationDate: "2022-09-12",
+//     addedDate: "2022-09-15",
+//     lastModifiedDate: "2024-02-05",
+//     photo: "https://images.pexels.com/photos/2280569/pexels-photo-2280569.jpeg"
+//   },
+//   {
+//     equipId: "EQP032",
+//     name: "Système d’aspiration portable Medela",
+//     department: ["Urgences", "Soins à domicile"],
+//     installationDate: "2023-03-05",
+//     addedDate: "2023-03-07",
+//     lastModifiedDate: "2024-03-29",
+//     photo: "https://images.pexels.com/photos/1557237/pexels-photo-1557237.jpeg"
+//   },
+//   {
+//     equipId: "EQP033",
+//     name: "Thermomètre numérique Omron",
+//     department: ["Accueil", "Pédiatrie"],
+//     installationDate: "2023-06-10",
+//     addedDate: "2023-06-12",
+//     lastModifiedDate: "2024-05-01",
+//     photo: "https://images.pexels.com/photos/40568/medical-equipment-health-hospital-40568.jpeg"
+//   },
+//   {
+//     equipId: "EQP034",
+//     name: "Table d'examen Maquet",
+//     department: ["Gynécologie", "Médecine générale"],
+//     installationDate: "2023-04-15",
+//     addedDate: "2023-04-18",
+//     lastModifiedDate: "2024-04-10",
+//     photo: "https://images.pexels.com/photos/2632109/pexels-photo-2632109.jpeg"
+//   },
+//   {
+//     equipId: "EQP035",
+//     name: "Pompe à perfusion Infusomat",
+//     department: ["Chirurgie", "Réanimation"],
+//     installationDate: "2023-02-20",
+//     addedDate: "2023-02-23",
+//     lastModifiedDate: "2024-03-30",
+//     photo: "https://images.pexels.com/photos/853847/pexels-photo-853847.jpeg"
+//   },
+//   {
+//     equipId: "EQP036",
+//     name: "Ventilateur portable Philips",
+//     department: ["Réanimation", "Urgences"],
+//     installationDate: "2023-01-10",
+//     addedDate: "2023-01-12",
+//     lastModifiedDate: "2024-02-20",
+//     photo: "https://images.pexels.com/photos/4407311/pexels-photo-4407311.jpeg"
+//   },
+//   {
+//     equipId: "EQP037",
+//     name: "Microscope optique Nikon",
+//     department: ["Laboratoire", "Pathologie"],
+//     installationDate: "2022-11-28",
+//     addedDate: "2022-12-01",
+//     lastModifiedDate: "2024-01-30",
+//     photo: "https://images.pexels.com/photos/2280569/pexels-photo-2280569.jpeg"
+//   },
+//   {
+//     equipId: "EQP038",
+//     name: "Fauteuil roulant pliable",
+//     department: ["Accueil", "Orthopédie"],
+//     installationDate: "2023-05-25",
+//     addedDate: "2023-05-28",
+//     lastModifiedDate: "2024-04-25",
+//     photo: "https://images.pexels.com/photos/296302/pexels-photo-296302.jpeg"
+//   },
+//   {
+//     equipId: "EQP039",
+//     name: "Défibrillateur automatisé Philips",
+//     department: ["Urgences", "Réanimation"],
+//     installationDate: "2023-03-18",
+//     addedDate: "2023-03-20",
+//     lastModifiedDate: "2024-03-28",
+//     photo: "https://images.pexels.com/photos/1557237/pexels-photo-1557237.jpeg"
+//   },
+//   {
+//     equipId: "EQP040",
+//     name: "Lit électrique médicalisé",
+//     department: ["Pédiatrie", "Gériatrie"],
+//     installationDate: "2023-06-05",
+//     addedDate: "2023-06-07",
+//     lastModifiedDate: "2024-05-15",
+//     photo: "https://images.pexels.com/photos/4407311/pexels-photo-4407311.jpeg"
+//   },
+// {
+//     equipId: "EQP041",
+//     name: "Analyseur d’urine Siemens",
+//     department: ["Laboratoire", "Biochimie"],
+//     installationDate: "2022-10-15",
+//     addedDate: "2022-10-18",
+//     lastModifiedDate: "2024-01-22",
+//     photo: "https://images.pexels.com/photos/2280569/pexels-photo-2280569.jpeg"
+//   },
+//   {
+//     equipId: "EQP042",
+//     name: "Moniteur de signes vitaux Philips",
+//     department: ["Réanimation", "Urgences"],
+//     installationDate: "2023-01-25",
+//     addedDate: "2023-01-28",
+//     lastModifiedDate: "2024-03-10",
+//     photo: "https://images.pexels.com/photos/4407311/pexels-photo-4407311.jpeg"
+//   },
+//   {
+//     equipId: "EQP043",
+//     name: "Pompe à perfusion volumétrique",
+//     department: ["Chirurgie", "Soins intensifs"],
+//     installationDate: "2023-04-10",
+//     addedDate: "2023-04-12",
+//     lastModifiedDate: "2024-04-08",
+//     photo: "https://images.pexels.com/photos/853847/pexels-photo-853847.jpeg"
+//   },
+//   {
+//     equipId: "EQP044",
+//     name: "Ventilateur non invasif ResMed",
+//     department: ["Réanimation", "Pneumologie"],
+//     installationDate: "2023-02-05",
+//     addedDate: "2023-02-08",
+//     lastModifiedDate: "2024-02-28",
+//     photo: "https://images.pexels.com/photos/4407311/pexels-photo-4407311.jpeg"
+//   },
+//   {
+//     equipId: "EQP045",
+//     name: "Microscope électronique JEOL",
+//     department: ["Laboratoire", "Recherche"],
+//     installationDate: "2022-07-20",
+//     addedDate: "2022-07-25",
+//     lastModifiedDate: "2024-01-05",
+//     photo: "https://images.pexels.com/photos/2280569/pexels-photo-2280569.jpeg"
+//   },
+//   {
+//     equipId: "EQP046",
+//     name: "Fauteuil roulant électrique Invacare",
+//     department: ["Accueil", "Orthopédie"],
+//     installationDate: "2023-06-20",
+//     addedDate: "2023-06-22",
+//     lastModifiedDate: "2024-05-20",
+//     photo: "https://images.pexels.com/photos/296302/pexels-photo-296302.jpeg"
+//   },
+//   {
+//     equipId: "EQP047",
+//     name: "Défibrillateur Zoll",
+//     department: ["Urgences", "Réanimation"],
+//     installationDate: "2023-03-22",
+//     addedDate: "2023-03-25",
+//     lastModifiedDate: "2024-04-01",
+//     photo: "https://images.pexels.com/photos/1557237/pexels-photo-1557237.jpeg"
+//   },
+//   {
+//     equipId: "EQP048",
+//     name: "Lit médicalisé électrique Hill-Rom",
+//     department: ["Pédiatrie", "Gériatrie"],
+//     installationDate: "2023-05-30",
+//     addedDate: "2023-06-01",
+//     lastModifiedDate: "2024-05-25",
+//     photo: "https://images.pexels.com/photos/4407311/pexels-photo-4407311.jpeg"
+//   },
+//   {
+//     equipId: "EQP049",
+//     name: "Analyseur de gaz sanguin ABL",
+//     department: ["Laboratoire", "Réanimation"],
+//     installationDate: "2022-11-10",
+//     addedDate: "2022-11-12",
+//     lastModifiedDate: "2024-02-15",
+//     photo: "https://images.pexels.com/photos/2280569/pexels-photo-2280569.jpeg"
+//   },
+//   {
+//     equipId: "EQP050",
+//     name: "Moniteur cardiaque GE",
+//     department: ["Cardiologie", "Réanimation"],
+//     installationDate: "2023-03-05",
+//     addedDate: "2023-03-07",
+//     lastModifiedDate: "2024-04-10",
+//     photo: "https://images.pexels.com/photos/4407311/pexels-photo-4407311.jpeg"
+//   }
 ]
 
 

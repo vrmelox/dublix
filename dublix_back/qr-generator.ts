@@ -1,7 +1,7 @@
 // qr-generator.ts (TypeScript ou JS)
 import QRCode from 'qrcode'
 
-const url = 'https://bioqrsuivi.com/equipement/267342'
+const url = 'http://localhost:3000/equipment/EQP001'
 
 // Génération d'une image base64 (utile pour afficher dans une balise <img>)
 QRCode.toDataURL(url, (err, qr) => {
