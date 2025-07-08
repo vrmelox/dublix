@@ -94,7 +94,7 @@ const EquipmentStatusChart = () => {
   const total = Data.reduce((acc, cur) => acc + cur.value, 0);
 
   return (
-    <div className="w-full max-w-sm mx-auto p-4 bg-white rounded shadow flex flex-col items-center">
+    <div className="w-full h-full  mx-auto p-4 bg-white rounded shadow flex flex-col items-center">
       <h2 className="text-center text-xl font-semibold mb-4">Répartition des équipements</h2>
 
       <div style={{ width: "100%", height: 200 }}>

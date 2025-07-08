@@ -30,6 +30,7 @@ interface StatsServicesProps {
   equipement: EquiProps[];
 }
 
+
 const StatsServices = ({ services, equipement }: StatsServicesProps) => {
   const [selectedService, setSelectedService] = useState("");
 
@@ -51,11 +52,11 @@ const StatsServices = ({ services, equipement }: StatsServicesProps) => {
   ];
 
   return (
-    <div className="bg-white p-4 rounded shadow flex flex-col items-center">
+    <div className="bg-white p-4 rounded shadow flex flex-col items-center h-full">
       <select
         value={selectedService}
         onChange={handleChange}
-        className="p-4 px-20 bg-amber-200 rounded-full mb-4"
+        className="p-4 px-10 md:px-15 lg:px-20 bg-cyan-800 text-white rounded-full mb-4"
       >
         <option value="">Tous les services</option>
         {services.map((s) => (
