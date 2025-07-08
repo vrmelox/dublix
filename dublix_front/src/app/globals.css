@@ -120,3 +120,8 @@
     font-weight: bold;
 }
 
+.recharts-tooltip-wrapper:hover {
+  opacity: 1 !important;
+  fill-opacity: 1 !important;
+  visibility: none;
+}

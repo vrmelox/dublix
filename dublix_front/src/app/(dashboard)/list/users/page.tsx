@@ -1,11 +1,15 @@
+"use client"
+
 import Pagination from "@/components/Pagination"
 import Table from "@/components/Table"
 import TableSearch from "@/components/TableSearch"
 import Image from "next/image"
 import Link from "next/link"
+import { useState } from "react"
 import { role, usersData } from "@/lib/data"
+import PopUpAjouterPersonne from "@/components/PopUpAjouterPersonne"
 
-type Student = {
+type User = {
     id:number;
     userId:string;
     name:string;
@@ -48,9 +52,9 @@ const columns = [
     },
 ];
 
-const StudentListPage = () => {
-
-    const renderRow = (item: Student) => (
+const UserListPage = () => {
+    const [showPopup, setShowPopup] = useState(false);
+    const renderRow = (item: User) => (
         <tr key={item.id} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-bensPurpleLight">
             <td className="flex items-center gap-4 p-4">
                 <Image src={item.photo} alt="" width={40} height={40} className="md:hidden xl:block w-10 h-10 rounded-full object-cover"/>
@@ -92,9 +96,15 @@ const StudentListPage = () => {
                         <button className="w-8 h-8 flex items-center justify-center rounded-full bg-bensYellow">
                             <Image src="/sort.png" alt="" height={14} width={14}/>
                         </button>
-                        {role === "admin" && (<button className="w-8 h-8 flex items-center justify-center rounded-full bg-bensYellow">
-                            <Image src="/plus.png" alt="" height={14} width={14}/>
-                        </button>)}
+                        {role === "admin" && (
+                        <button
+                            onClick={() => setShowPopup(true)}
+                            className="w-8 h-8 flex items-center justify-center rounded-full bg-bensYellow cursor-pointer"
+                            aria-label="Ajouter un technicien"
+                        >
+                            <Image src="/plus.png" alt="Ajouter" height={20} width={20} />
+                        </button>
+                        )}
                     </div>
                 </div>
             </div>
@@ -102,8 +112,10 @@ const StudentListPage = () => {
             <Table columns={columns} renderRow={renderRow} data={usersData}/>
             {/* PAGINATION */}
             <Pagination/>
+            {/* POPUP AJOUT */}
+            <PopUpAjouterPersonne open={showPopup} onClose={() => setShowPopup(false)} />
         </div>
     )
 }
 
-export default StudentListPage
+export default UserListPage
