@@ -23,7 +23,7 @@ const categories = [
     "Cardiologie", "Réanimation", "Radiologie", "Chirurgie",
     "Urgences", "Soins Intensifs", "Gynécologie", "Néonatologie",
     "Pédiatrie", "Laboratoire", "Hématologie", "Anesthésie",
-    "Orthopédie"
+    "Orthopédie", "Néphrologie et hémodialyse"
 ];
 
 const ListEquipementPage = () => {

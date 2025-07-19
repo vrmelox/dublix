@@ -108,7 +108,8 @@ const EquipmentPage = ({ equipement }: EquipCardProps) => {
         </div>
 
         {/* Status Section */}
-        <div className="mt-8 bg-white rounded-xl p-4 sm:p-6 shadow-sm">
+        <div className="mt-8 bg-white rounded-xl p-4 sm:p-6 shadow-sm flex justify-between">
+          <div className="">
           <h3 className="text-lg font-semibold text-[#333652] mb-4">État de l'équipement</h3>
           <div className="flex flex-wrap items-center gap-4 text-sm">
             <div className="flex items-center gap-2">
@@ -121,6 +122,15 @@ const EquipmentPage = ({ equipement }: EquipCardProps) => {
                 ? new Date(equipement.lastModifiedDate).toLocaleDateString("fr-FR")
                 : "Non spécifié"}
             </div>
+          </div>
+          </div>
+          <div className="">
+            <Image 
+              src={equipement.qrcode}
+              alt={"qrcode de l'équipement"}
+              width={100}
+              height={100}
+            />
           </div>
         </div>
       </div>

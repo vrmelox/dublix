@@ -12,7 +12,7 @@ const menuItems = [
       {
         icon: "/home.png",
         label: "Home",
-        href: "/",
+        href: `/${role.toLowerCase}`,
         visible: ["admin", "teacher", "student"],
       },
       {
@@ -42,7 +42,7 @@ const menuItems = [
       {
         icon: "/journal.png",
         label: "Historique",
-        href: "/list/messages",
+        href: "/historique",
         visible: ["admin", "technician"],
       },
       {
