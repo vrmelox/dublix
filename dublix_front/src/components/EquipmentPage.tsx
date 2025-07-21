@@ -25,7 +25,6 @@ interface EquipCardProps {
 
 const EquipmentPage = ({ equipement }: EquipCardProps) => {
   const handleInterventionAdded = () => {
-    // Rafraîchir les données si nécessaire
     console.log("Intervention ajoutée");
   };
 
@@ -49,9 +48,9 @@ const EquipmentPage = ({ equipement }: EquipCardProps) => {
             </div>
           </div>
 
-          {/* Equipment Details Section */}
+          {/* Equipment Details */}
           <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 space-y-6">
-            {/* Rating Section */}
+            {/* Rating */}
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-sm font-medium text-gray-700">Évaluation:</span>
               <div className="flex items-center gap-1">
@@ -66,7 +65,7 @@ const EquipmentPage = ({ equipement }: EquipCardProps) => {
               <span className="text-sm text-gray-600">(3/5)</span>
             </div>
 
-            {/* Description Section */}
+            {/* Description */}
             <div>
               <h3 className="text-lg font-semibold text-[#333652] mb-2">Description</h3>
               <p className="text-gray-700 leading-relaxed text-sm">
@@ -90,7 +89,6 @@ const EquipmentPage = ({ equipement }: EquipCardProps) => {
                 </div>
               </div>
 
-              {/* Additional Info Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="bg-green-50 p-4 rounded-lg border border-green-200">
                   <h4 className="font-semibold text-green-800 mb-1 text-sm">Installation</h4>
@@ -113,9 +111,9 @@ const EquipmentPage = ({ equipement }: EquipCardProps) => {
           </div>
         </div>
 
-        {/* Status Section */}
-        <div className="mt-8 bg-white rounded-xl p-4 sm:p-6 shadow-sm flex justify-between items-center">
-          <div className="">
+        {/* Status Section Responsive */}
+        <div className="mt-8 bg-white rounded-xl p-4 sm:p-6 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div className="flex-1">
             <h3 className="text-lg font-semibold text-[#333652] mb-4">État de l'équipement</h3>
             <div className="flex flex-wrap items-center gap-4 text-sm">
               <div className="flex items-center gap-2">
@@ -123,30 +121,26 @@ const EquipmentPage = ({ equipement }: EquipCardProps) => {
                 <span className="text-gray-700">Opérationnel</span>
               </div>
               <div className="text-gray-500">
-                Dernière modification:{" "}
-                {equipement.lastModifiedDate
+                Dernière modification: {equipement.lastModifiedDate
                   ? new Date(equipement.lastModifiedDate).toLocaleDateString("fr-FR")
                   : "Non spécifié"}
               </div>
             </div>
           </div>
-          
-          {/* Bouton intervention et QR Code alignés */}
-          <div className="flex items-center gap-4">
+
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <PopupAjouterIntervention
               equipementId={equipement.equipId}
               equipementNom={equipement.nom}
-              currentStatut="FONCTIONNEL" // Vous pouvez adapter selon le statut réel
+              currentStatut="FONCTIONNEL"
               onInterventionAdded={handleInterventionAdded}
             />
-            <div className="">
-              <Image 
-                src={equipement.qrcode}
-                alt={"qrcode de l'équipement"}
-                width={100}
-                height={100}
-              />
-            </div>
+            <Image
+              src={equipement.qrcode}
+              alt="qrcode de l'équipement"
+              width={100}
+              height={100}
+            />
           </div>
         </div>
       </div>
