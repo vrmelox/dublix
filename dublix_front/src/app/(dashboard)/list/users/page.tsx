@@ -5,9 +5,10 @@ import Table from "@/components/Table"
 import TableSearch from "@/components/TableSearch"
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
-import { role, usersData } from "@/lib/data"
+import { useState, useMemo } from "react"
+import { usersData } from "@/lib/data"
 import PopUpAjouterPersonne from "@/components/PopUpAjouterPersonne"
+import { useUser } from "@/app/contexts/UserContext";
 
 type User = {
     id:number;
@@ -53,7 +54,26 @@ const columns = [
 ];
 
 const UserListPage = () => {
+    const user = useUser();  // récupère l'utilisateur
+    const role = user.user?.role
     const [showPopup, setShowPopup] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10; // Nombre d'éléments par page
+
+    // Calcul des données paginées
+    const { paginatedData, totalPages } = useMemo(() => {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedData = usersData.slice(startIndex, endIndex);
+        const totalPages = Math.ceil(usersData.length / itemsPerPage);
+        
+        return { paginatedData, totalPages };
+    }, [currentPage, itemsPerPage]);
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
+
     const renderRow = (item: User) => (
         <tr key={item.id} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-bensPurpleLight">
             <td className="flex items-center gap-4 p-4">
@@ -69,14 +89,16 @@ const UserListPage = () => {
             <td className="hidden md:table-cell">{item.adress}</td>
             <td className="">
                 <div className="flex items-center gap-2">
-                    <Link href={`/list/teachers/${item.id}`}>
+                    <Link href={`/list/users/${item.id}`}>
                         <button className="w-7 h-7 flex items-center justify-center rounded-full bg-benSky">
                             <Image src="/view.png" alt="" width={16} height={16}/>
                         </button>
                     </Link>
-                    {role === "admin" && (<button className="w-7 h-7 flex items-center justify-center rounded-full bg-bensPurple">
-                        <Image src="/delete.png" alt="" width={16} height={16}/>
-                    </button>)}
+                    {role === "ADMINISTRATEUR" && (
+                        <button className="w-7 h-7 flex items-center justify-center rounded-full bg-bensPurple">
+                            <Image src="/delete.png" alt="" width={16} height={16}/>
+                        </button>
+                    )}
                 </div>
             </td>
         </tr>
@@ -86,7 +108,9 @@ const UserListPage = () => {
         <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0">
             {/* TOP */}
             <div className="flex items-center justify-between">
-                <h1 className=" hidden md:block text-lg font-semibold">Liste des utilisateurs</h1>
+                <h1 className="hidden md:block text-lg font-semibold">
+                    Liste des utilisateurs ({usersData.length} total)
+                </h1>
                 <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
                     <TableSearch />
                     <div className="flex items-center gap-4 self-end">
@@ -96,22 +120,26 @@ const UserListPage = () => {
                         <button className="w-8 h-8 flex items-center justify-center rounded-full bg-bensYellow">
                             <Image src="/sort.png" alt="" height={14} width={14}/>
                         </button>
-                        {role === "admin" && (
-                        <button
-                            onClick={() => setShowPopup(true)}
-                            className="w-8 h-8 flex items-center justify-center rounded-full bg-bensYellow cursor-pointer"
-                            aria-label="Ajouter un technicien"
-                        >
-                            <Image src="/plus.png" alt="Ajouter" height={20} width={20} />
-                        </button>
+                        {role === "ADMINISTRATEUR" && (
+                            <button
+                                onClick={() => setShowPopup(true)}
+                                className="w-8 h-8 flex items-center justify-center rounded-full bg-bensYellow cursor-pointer"
+                                aria-label="Ajouter un utilisateur"
+                            >
+                                <Image src="/plus.png" alt="Ajouter" height={20} width={20} />
+                            </button>
                         )}
                     </div>
                 </div>
             </div>
             {/* LIST */}
-            <Table columns={columns} renderRow={renderRow} data={usersData}/>
+            <Table columns={columns} renderRow={renderRow} data={paginatedData}/>
             {/* PAGINATION */}
-            <Pagination/>
+            <Pagination 
+                totalPages={totalPages}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+            />
             {/* POPUP AJOUT */}
             <PopUpAjouterPersonne open={showPopup} onClose={() => setShowPopup(false)} />
         </div>

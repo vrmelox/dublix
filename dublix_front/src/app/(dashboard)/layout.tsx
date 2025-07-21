@@ -1,16 +1,19 @@
+import { UserProvider } from "../contexts/UserContext";
 import Menu from "@/components/Menu";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import Image from "next/image";
+
 export default function DashboardLayout({
     children,
   }: Readonly<{
     children: React.ReactNode;
   }>) {
-        return (
+    return (
+      <UserProvider>
         <div className="min-h-screen flex">
           {/*LEFT*/}
-          <div className="w-[14%] md:w-[8%] lg:w-[16%] xl:w-[14%] p-4 sticky top-0 h-screen">
+          <div className="w-[14%] md:w-[8%] lg:w-[16%] xl:w-[14%] p-4 sticky top- h-screen">
             <Link
               href="/" className="flex items-center justify-center lg:justify-start gap-2"
             >
@@ -21,9 +24,10 @@ export default function DashboardLayout({
           </div>
           {/*RIGHT*/}
           <div className="w-[86%] md:w-[92%] lg:w-[84%] xl:w-[86%] bg-[#E3E8E9] overflow-scroll flex flex-col">
-          <Navbar/>
-          {children}
+            <Navbar/>
+            {children}
           </div>
         </div>
-        );
-    }
+      </UserProvider>
+    );
+}

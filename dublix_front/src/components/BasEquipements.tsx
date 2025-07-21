@@ -3,9 +3,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import TableSearch from "./TableSearch";
-import Table from "./TableStats"; 
+import Table from "./TableStats";
+import { useUser } from "@/app/contexts/UserContext";
 
-const role = "admin";
 interface Equipements {
   equipId: string,
   nom: string,
@@ -55,7 +55,8 @@ const columns: Column<Equipements>[] = [
 
 
 const BasEquipements = ({equipements}: EquipementsProps) => {
-
+  const user = useUser();  // récupère l'utilisateur
+  const role = user.user?.role
   const renderCard = (equipement: Equipements) => (
     <div
       key={equipement.equipId}
@@ -84,7 +85,7 @@ const BasEquipements = ({equipements}: EquipementsProps) => {
         </p>
       </div>
       <div className="flex gap-3">
-        {role === "admin" && (
+        {role === "ADMINISTRATEUR" && (
           <button className="flex items-center justify-center rounded-full bg-bensPurple w-8 h-8">
             <Image src="/delete.png" alt="Supprimer" width={16} height={16} />
           </button>
@@ -110,7 +111,7 @@ const BasEquipements = ({equipements}: EquipementsProps) => {
       <td className="hidden lg:table-cell">{equipement.services.join(", ")}</td>
       <td>
         <div className="flex items-center gap-2">
-          {role === "admin" && (
+          {role === "ADMINISTRATEUR" && (
             <button className="w-7 h-7 flex items-center justify-center rounded-full bg-bensPurple cursor-pointer">
               <Image src="/delete.png" alt="Supprimer" width={16} height={16} />
             </button>

@@ -29,7 +29,7 @@ interface ViewHistoriqueProps {
 }
 
 // Constantes
-const ROLE = "Admin" as const
+const ROLE = "ADMINISTRATEUR" as const
 
 // Utilitaires de formatage
 const formatDate = (date: string): string => {

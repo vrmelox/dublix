@@ -98,20 +98,24 @@ model Service {
 model Equipement {
   id                        String              @id @default(cuid())
   nom                       String              @db.VarChar(200)
-  modele                    String?             @db.VarChar(150)
-  marque                    String?             @db.VarChar(100)
-  numeroSerie               String?             @unique @db.VarChar(100)
-  presentation              String?             @db.Text // Limité à ~300 mots côté application
+  modele                    String              @db.VarChar(150)
+  marque                    String              @db.VarChar(100)
+  numeroSerie               String              @unique @db.VarChar(100)
+  numeroInventaire          String?             @db.VarChar(100)  // ✨ NOUVEAU CHAMP
+  typeMateriel              String?             @db.VarChar(150)  // ✨ NOUVEAU CHAMP
+  presentation              String              @db.Text
   serviceId                 String?
-  anneeFabrication          Int?
+  anneeFabrication          Int
   statut                    StatutEquipement    @default(FONCTIONNEL)
   dateAjout                 DateTime            @default(now())
-  dateInstallation          DateTime?           @db.Date
-  dateDerniereIntervention  DateTime?
+  dateInstallation          DateTime            @db.Date
+  dateDerniereIntervention  DateTime
   nombreExemplaires         Int                 @default(1)
+  photo                     String              @db.VarChar(255) // Chemin de l'image stockée
+  lien                      String              @db.VarChar(255) // Lien externe ou interne
   qrcode                    String              @unique @db.VarChar(255)
-  createdBy                 String?
-  updatedBy                 String?
+  createdBy                 String
+  updatedBy                 String
   dateModification          DateTime            @updatedAt
 
   // Relations
@@ -123,6 +127,9 @@ model Equipement {
   evenements                Evenement[]
   modificationsEnAttente    ModificationEnAttente[]
 
+  // Index pour optimiser les recherches
+  @@index([numeroInventaire])
+  @@index([typeMateriel])
   @@map("equipements")
 }
 
@@ -229,6 +236,8 @@ model ModificationEnAttente {
 // - idx_utilisateurs_role sur utilisateurs(role)
 // - idx_equipements_service sur equipements(serviceId)
 // - idx_equipements_statut sur equipements(statut)
+// - idx_equipements_numero_inventaire sur equipements(numeroInventaire)  // ✨ NOUVEAU
+// - idx_equipements_type_materiel sur equipements(typeMateriel)          // ✨ NOUVEAU
 // - idx_historique_equipement sur historique_interventions(equipementId)
 // - idx_historique_date_signalement sur historique_interventions(dateSignalement)
 // - idx_notifications_utilisateur sur notifications(utilisateurId)

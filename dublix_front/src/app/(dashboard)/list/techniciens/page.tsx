@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { role, techniciansData } from "@/lib/data";
 import PopUpAjouterPersonne from "@/components/PopUpAjouterPersonne";
+import { useUser } from "@/app/contexts/UserContext";
 
 type Technician = {
   id: number;
@@ -46,7 +47,25 @@ const columns = [
 ];
 
 const TechnicianListPage = () => {
+  const user = useUser();
+  const role = user.user?.role;
   const [showPopup, setShowPopup] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // Nombre d'éléments par page
+
+  // Calcul des données paginées
+  const { paginatedData, totalPages } = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedData = techniciansData.slice(startIndex, endIndex);
+    const totalPages = Math.ceil(techniciansData.length / itemsPerPage);
+    
+    return { paginatedData, totalPages };
+  }, [currentPage, itemsPerPage]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   const renderCard = (item: Technician) => (
     <div
@@ -86,7 +105,7 @@ const TechnicianListPage = () => {
             <Image src="/view.png" alt="Voir" width={16} height={16} />
           </button>
         </Link>
-        {role === "admin" && (
+        {role === "ADMINISTRATEUR" && (
           <button className="flex items-center justify-center rounded-full bg-bensPurple w-8 h-8">
             <Image src="/delete.png" alt="Supprimer" width={16} height={16} />
           </button>
@@ -123,7 +142,7 @@ const TechnicianListPage = () => {
               <Image src="/view.png" alt="Voir" width={16} height={16} />
             </button>
           </Link>
-          {role === "admin" && (
+          {role === "ADMINISTRATEUR" && (
             <button className="w-7 h-7 flex items-center justify-center rounded-full bg-bensPurple">
               <Image src="/delete.png" alt="Supprimer" width={16} height={16} />
             </button>
@@ -138,7 +157,7 @@ const TechnicianListPage = () => {
       {/* TOP */}
       <div className="flex items-center justify-between">
         <h1 className="hidden md:block text-lg font-semibold">
-          Liste des techniciens
+          Liste des techniciens ({techniciansData.length} total)
         </h1>
         <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
           <TableSearch />
@@ -149,7 +168,7 @@ const TechnicianListPage = () => {
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-bensYellow cursor-pointer">
               <Image src="/sort.png" alt="Trier" height={20} width={20} />
             </button>
-            {role === "admin" && (
+            {role === "ADMINISTRATEUR" && (
               <button
                 onClick={() => setShowPopup(true)}
                 className="w-8 h-8 flex items-center justify-center rounded-full bg-bensYellow cursor-pointer"
@@ -163,15 +182,19 @@ const TechnicianListPage = () => {
       </div>
 
       {/* MOBILE LISTE CARTES */}
-      <div className="md:hidden mt-6">{techniciansData.map(renderCard)}</div>
+      <div className="md:hidden mt-6">{paginatedData.map(renderCard)}</div>
 
       {/* TABLEAU DESKTOP */}
       <div className="hidden md:block mt-6">
-        <Table columns={columns} renderRow={renderRow} data={techniciansData} />
+        <Table columns={columns} renderRow={renderRow} data={paginatedData} />
       </div>
 
       {/* PAGINATION */}
-      <Pagination />
+      <Pagination 
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
 
       {/* POPUP AJOUT */}
       <PopUpAjouterPersonne open={showPopup} onClose={() => setShowPopup(false)} />

@@ -1,89 +1,92 @@
 import express from 'express';
 import cors from 'cors';
-import helmet from 'helmet';
-import morgan from 'morgan';
 import dotenv from 'dotenv';
-import { PrismaClient } from '@prisma/client';
+import path from 'path';
 
 // Import des routes
-import authRoutes from './routes/auth.routes';
-import userRoutes from './routes/user.routes'
-// import userRoutes from './routes/user.routes';
-// import equipmentRoutes from './routes/equipment.routes';
-// import notificationRoutes from './routes/notification.routes';
-
-// Import des middlewares
-import { errorHandler } from './middlewares/errorHandler';
-import { authMiddleware } from './middlewares/auth';
+import userRoutes from './routes/userRoutes';
+import meRoutes from './routes/meRoutes';
+import equipmentRoutes from './routes/equipmentRoutes';
 
 dotenv.config();
 
 const app = express();
-const prisma = new PrismaClient();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 
-// Configuration CORS pour Next.js
-const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+// Configuration CORS plus permissive pour le développement
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
-};
+}));
 
-// Middlewares globaux
-app.use(helmet());
-app.use(cors(corsOptions));
-app.use(morgan('combined'));
+// Middleware pour parser le JSON et les données de formulaire
 app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Test de connexion à la base
-app.get('/health', async (req, res) => {
-  try {
-    await prisma.$connect();
-    res.status(200).json({ 
-      status: 'OK', 
-      database: 'Connected',
-      timestamp: new Date().toISOString()
-    });
-  } catch (error) {
-    res.status(500).json({ 
-      status: 'Error', 
-      database: 'Disconnected',
-      error: error.message
-    });
+// Fichiers statiques (photos, QR codes, etc.)
+app.use('/uploads', express.static(path.resolve('public/uploads')));
+app.use(express.static('public'));
+
+// Middleware de logging pour debug
+app.use((req, res, next) => {
+  console.log(`📡 ${new Date().toISOString()} - ${req.method} ${req.url}`);
+  if (req.method === 'POST' && req.url.includes('/api/equipments')) {
+    console.log('📋 Headers:', req.headers);
+    // ✅ CORRECTION: Vérifier si req.body existe
+    console.log('📦 Body keys:', req.body ? Object.keys(req.body) : 'Body est null/undefined (normal pour multipart)');
   }
+  next();
 });
+
 
 // Routes principales
-app.use('/api/auth', authRoutes);
-app.use('/api/users', authMiddleware, userRoutes);
-// app.use('/api/equipment', authMiddleware, equipmentRoutes);
-// app.use('/api/notifications', authMiddleware, notificationRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/equipments', equipmentRoutes);
+app.use('/api', meRoutes);
 
-// Middleware de gestion d'erreurs (toujours en dernier)
-app.use(errorHandler);
-
-// Gestion des routes non trouvées
-app.use('*', (req, res) => {
-  res.status(404).json({ message: 'Route not found' });
+// Route de test
+app.get('/', (_req, res) => {
+  res.json({ 
+    message: '✅ API BioQr-Suivi en marche',
+    endpoints: {
+      equipments: '/api/equipments',
+      users: '/api/users',
+      me: '/api/me'
+    }
+  });
 });
 
-// Démarrage du serveur
+// Route de test pour les équipements
+app.get('/test', (_req, res) => {
+  res.json({ message: 'Test endpoint working' });
+});
+
+// Gestionnaire d'erreurs global
+app.use((error: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error('💥 Erreur globale:', error);
+  res.status(500).json({ 
+    error: 'Erreur interne du serveur',
+    message: error.message 
+  });
+});
+
+// ✅ CORRECTION: Gestionnaire pour les routes non trouvées
+// Remplacer app.use('*', ...) par app.use(...) sans paramètre de route
+app.use((req, res) => {
+  res.status(404).json({ 
+    error: 'Route non trouvée',
+    path: req.originalUrl,
+    method: req.method
+  });
+});
+
+// Démarrage serveur
 app.listen(PORT, () => {
-  console.log(`🚀 Serveur démarré sur le port ${PORT}`);
-  console.log(`🌐 Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:3000'}`);
+  console.log(`🚀 Serveur lancé sur http://localhost:${PORT}`);
+  console.log(`📡 Routes disponibles:`);
+  console.log(`   GET  http://localhost:${PORT}/api/equipments`);
+  console.log(`   POST http://localhost:${PORT}/api/equipments`);
+  console.log(`   GET  http://localhost:${PORT}/api/users`);
 });
-
-// Gestion propre de l'arrêt
-process.on('SIGTERM', async () => {
-  await prisma.$disconnect();
-  process.exit(0);
-});
-
-process.on('SIGINT', async () => {
-  await prisma.$disconnect();
-  process.exit(0);
-});
-
-export { prisma };

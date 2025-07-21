@@ -1,10 +1,12 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import EquipementCard from "@/components/EquipmentCard";
 import { equipmentsData as equi } from "@/lib/data";
 import PopUpAjouterEquipement from "@/components/PopUpAjouterEquipement";
 import Pagination from "@/components/Pagination";
+import { useUser } from "@/app/contexts/UserContext";
+
 
 interface EquiProps {
     equipId: string;
@@ -27,6 +29,24 @@ const categories = [
 ];
 
 const ListEquipementPage = () => {
+    const user = useUser();  // récupère l'utilisateur
+    const role = user.user?.role
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10; // Nombre d'éléments par page
+
+    // Calcul des données paginées
+    const { paginatedData, totalPages } = useMemo(() => {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedData = equi.slice(startIndex, endIndex);
+        const totalPages = Math.ceil(equi.length / itemsPerPage);
+        
+        return { paginatedData, totalPages };
+    }, [currentPage, itemsPerPage]);
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
     const filteredEquipment = selectedCategory 
@@ -71,7 +91,7 @@ const ListEquipementPage = () => {
                 )}
             </div>
             
-            <PopUpAjouterEquipement />
+            {role && ["ADMINISTRATEUR", "TECHNICIEN"].includes(role) && <PopUpAjouterEquipement />}
             {/* Equipment Grid Section */}
             <div className="mb-4 mt-4">
                 <div className="flex justify-between items-center mb-4">
@@ -98,7 +118,11 @@ const ListEquipementPage = () => {
                     )}
                 </div>
             </div>
-            <Pagination />
+            <Pagination 
+                totalPages={totalPages}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+            />
         </div>
     );
 };

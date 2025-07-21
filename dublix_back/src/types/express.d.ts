@@ -1,14 +1,12 @@
-declare global {
-  namespace Express {
-    interface Request {
-      user?: {
-        id: string;
-        nom: string;
-        prenom: string;
-        email: string | null; // Allow null to match Prisma schema
-        role: 'ADMIN' | 'UTILISATEUR' | 'TECHNICIEN'; // Use the actual enum values
-        actif: boolean;
-      };
-    }
+// src/@types/express/index.d.ts
+import { RoleType } from '@prisma/client';
+
+declare module 'express-serve-static-core' {
+  interface Request {
+    user?: {
+      id: string;
+      email: string;
+      role: RoleType;
+    };
   }
 }

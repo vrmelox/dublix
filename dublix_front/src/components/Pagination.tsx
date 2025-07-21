@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface PaginationProps {
     totalPages?: number;
@@ -15,8 +15,13 @@ const Pagination = ({
 }: PaginationProps) => {
     const [activePage, setActivePage] = useState(currentPage);
 
+    // Synchroniser avec les props externes
+    useEffect(() => {
+        setActivePage(currentPage);
+    }, [currentPage]);
+
     const handlePageChange = (page: number) => {
-        if (page >= 1 && page <= totalPages) {
+        if (page >= 1 && page <= totalPages && page !== activePage) {
             setActivePage(page);
             onPageChange?.(page);
         }
@@ -45,6 +50,11 @@ const Pagination = ({
 
     const visiblePages = getVisiblePages();
 
+    // Ne pas afficher la pagination si il n'y a qu'une seule page
+    if (totalPages <= 1) {
+        return null;
+    }
+
     return (
         <div className="p-4 flex items-center justify-between text-gray-500">
             <button 
@@ -52,7 +62,7 @@ const Pagination = ({
                 onClick={() => handlePageChange(activePage - 1)}
                 className="p-2 px-4 rounded-md bg-slate-200 text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-300 transition-colors"
             >
-                Prev
+                Précédent
             </button>
             
             <div className="flex items-center gap-2 text-sm">
@@ -82,7 +92,7 @@ const Pagination = ({
                 onClick={() => handlePageChange(activePage + 1)}
                 className="p-2 px-4 rounded-md bg-slate-200 text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-300 transition-colors"
             >
-                Next
+                Suivant
             </button>
         </div>
     );

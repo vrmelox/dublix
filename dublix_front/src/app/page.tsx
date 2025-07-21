@@ -44,7 +44,7 @@ export default function Home() {
         <div className="max-w-6xl w-full">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10 justify-items-center">
             <Link 
-              href="/admin" 
+              href="/administrateur" 
               className="transform hover:scale-105 transition-all duration-300 hover:drop-shadow-2xl group"
             >
               <div className="relative">
