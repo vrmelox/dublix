@@ -18,11 +18,15 @@ export function authenticateToken(req: Request, res: Response, next: NextFunctio
   console.log('✅ AuthMiddleware: Token trouvé, vérification...');
 
   jwt.verify(token, process.env.JWT_SECRET!, (err, decoded) => {
-    if (err) {
-      console.log('❌ AuthMiddleware: Token invalide');
-      res.status(403).json({ message: 'Token invalide' });
-      return;
-    }
+  if (err) {
+    console.log('❌ AuthMiddleware: Token invalide');
+    res.status(403).json({ 
+      message: 'Token invalide. Redirection vers la page d\'accueil dans 30 secondes...',
+      redirect: '/',  // URL de la page d'accueil
+      delay: 30000    // 30 secondes en millisecondes
+    });
+    return;
+  }
 
     // Type guard to ensure decoded is an object with the expected properties
     if (typeof decoded === 'object' && decoded !== null && 'id' in decoded && 'email' in decoded && 'role' in decoded) {
