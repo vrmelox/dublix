@@ -7,6 +7,7 @@ import path from 'path';
 import userRoutes from './routes/userRoutes';
 import meRoutes from './routes/meRoutes';
 import equipmentRoutes from './routes/equipmentRoutes';
+import interventionRoutes from './routes/interventionRoutes'; // ✨ NOUVELLE ROUTE
 
 dotenv.config();
 
@@ -44,6 +45,7 @@ app.use((req, res, next) => {
 // Routes principales
 app.use('/api/users', userRoutes);
 app.use('/api/equipments', equipmentRoutes);
+app.use('/api/interventions', interventionRoutes); // ✨ NOUVELLE ROUTE
 app.use('/api', meRoutes);
 
 // Route de test
@@ -53,6 +55,7 @@ app.get('/', (_req, res) => {
     endpoints: {
       equipments: '/api/equipments',
       users: '/api/users',
+      interventions: '/api/interventions', // ✨ NOUVEAU
       me: '/api/me'
     }
   });
@@ -88,5 +91,7 @@ app.listen(PORT, () => {
   console.log(`📡 Routes disponibles:`);
   console.log(`   GET  http://localhost:${PORT}/api/equipments`);
   console.log(`   POST http://localhost:${PORT}/api/equipments`);
+  console.log(`   GET  http://localhost:${PORT}/api/interventions`); // ✨ NOUVEAU
+  console.log(`   POST http://localhost:${PORT}/api/interventions`); // ✨ NOUVEAU
   console.log(`   GET  http://localhost:${PORT}/api/users`);
 });

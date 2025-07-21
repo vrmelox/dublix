@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import PopupAjouterIntervention from "./PopUpAjouterIntervention";
 
 interface EquiProps {
   equipId: string;
@@ -23,6 +24,11 @@ interface EquipCardProps {
 }
 
 const EquipmentPage = ({ equipement }: EquipCardProps) => {
+  const handleInterventionAdded = () => {
+    // Rafraîchir les données si nécessaire
+    console.log("Intervention ajoutée");
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
       <div className="max-w-6xl mx-auto">
@@ -108,29 +114,39 @@ const EquipmentPage = ({ equipement }: EquipCardProps) => {
         </div>
 
         {/* Status Section */}
-        <div className="mt-8 bg-white rounded-xl p-4 sm:p-6 shadow-sm flex justify-between">
+        <div className="mt-8 bg-white rounded-xl p-4 sm:p-6 shadow-sm flex justify-between items-center">
           <div className="">
-          <h3 className="text-lg font-semibold text-[#333652] mb-4">État de l'équipement</h3>
-          <div className="flex flex-wrap items-center gap-4 text-sm">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              <span className="text-gray-700">Opérationnel</span>
-            </div>
-            <div className="text-gray-500">
-              Dernière modification:{" "}
-              {equipement.lastModifiedDate
-                ? new Date(equipement.lastModifiedDate).toLocaleDateString("fr-FR")
-                : "Non spécifié"}
+            <h3 className="text-lg font-semibold text-[#333652] mb-4">État de l'équipement</h3>
+            <div className="flex flex-wrap items-center gap-4 text-sm">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                <span className="text-gray-700">Opérationnel</span>
+              </div>
+              <div className="text-gray-500">
+                Dernière modification:{" "}
+                {equipement.lastModifiedDate
+                  ? new Date(equipement.lastModifiedDate).toLocaleDateString("fr-FR")
+                  : "Non spécifié"}
+              </div>
             </div>
           </div>
-          </div>
-          <div className="">
-            <Image 
-              src={equipement.qrcode}
-              alt={"qrcode de l'équipement"}
-              width={100}
-              height={100}
+          
+          {/* Bouton intervention et QR Code alignés */}
+          <div className="flex items-center gap-4">
+            <PopupAjouterIntervention
+              equipementId={equipement.equipId}
+              equipementNom={equipement.nom}
+              currentStatut="FONCTIONNEL" // Vous pouvez adapter selon le statut réel
+              onInterventionAdded={handleInterventionAdded}
             />
+            <div className="">
+              <Image 
+                src={equipement.qrcode}
+                alt={"qrcode de l'équipement"}
+                width={100}
+                height={100}
+              />
+            </div>
           </div>
         </div>
       </div>
