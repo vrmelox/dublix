@@ -273,7 +273,7 @@ async function getUserById(req, res) {
     try {
         const { id } = req.params;
         const utilisateur = await prisma.utilisateur.findUnique({
-            where: { id },
+            where: { id: id },
             select: {
                 id: true,
                 nom: true,

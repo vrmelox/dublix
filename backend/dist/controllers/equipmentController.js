@@ -363,7 +363,7 @@ class EquipmentController {
         try {
             const { id } = req.params;
             const equipement = await prisma.equipement.findUnique({
-                where: { id },
+                where: { id: id },
                 include: {
                     service: true, // Service principal
                     services: {
@@ -463,7 +463,7 @@ class EquipmentController {
             console.log("📋 Données de mise à jour:", updateData);
             // Vérifier si l'équipement existe
             const existingEquipment = await prisma.equipement.findUnique({
-                where: { id }
+                where: { id: id }
             });
             if (!existingEquipment) {
                 console.log("❌ Équipement non trouvé pour mise à jour");
@@ -541,7 +541,7 @@ class EquipmentController {
             console.log("🗄️ Mise à jour en base...");
             // Mettre à jour l'équipement avec ou sans services
             const equipement = await prisma.equipement.update({
-                where: { id },
+                where: { id: id },
                 data: {
                     ...updateData,
                     ...serviceUpdates
@@ -588,7 +588,7 @@ class EquipmentController {
             const { id } = req.params;
             // Vérifier si l'équipement existe
             const equipement = await prisma.equipement.findUnique({
-                where: { id }
+                where: { id: id }
             });
             if (!equipement) {
                 console.log("❌ Équipement non trouvé pour suppression");
@@ -609,7 +609,7 @@ class EquipmentController {
             // Supprimer l'équipement de la base de données
             // Les relations services seront supprimées automatiquement grâce à onDelete: Cascade
             await prisma.equipement.delete({
-                where: { id }
+                where: { id: id }
             });
             console.log("✅ Équipement supprimé avec succès");
             res.json({
@@ -635,7 +635,7 @@ class EquipmentController {
         try {
             const { id } = req.params;
             const equipement = await prisma.equipement.findUnique({
-                where: { id }
+                where: { id: id }
             });
             if (!equipement) {
                 console.log("❌ Équipement non trouvé pour régénération QR");
@@ -656,7 +656,7 @@ class EquipmentController {
             const qrCodePath = await qrCodeService_1.QRCodeService.generateEquipmentQRCode(id);
             // Mettre à jour l'équipement
             await prisma.equipement.update({
-                where: { id },
+                where: { id: id },
                 data: { qrcode: qrCodePath }
             });
             console.log("✅ QR code régénéré:", qrCodePath);
@@ -736,7 +736,7 @@ class EquipmentController {
             }
             // Vérifier que l'équipement existe
             const equipement = await prisma.equipement.findUnique({
-                where: { id },
+                where: { id: id },
                 include: {
                     service: true,
                     services: {
@@ -787,7 +787,7 @@ class EquipmentController {
             // Mettre à jour le statut de l'équipement
             console.log(`🔄 Mise à jour du statut: ${equipement.statut} → ${nouveauStatut}`);
             const equipementMisAJour = await prisma.equipement.update({
-                where: { id },
+                where: { id: id },
                 data: {
                     statut: nouveauStatut,
                     updatedBy: req.user.id,

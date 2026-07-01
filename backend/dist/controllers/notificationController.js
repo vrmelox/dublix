@@ -226,7 +226,7 @@ const markAsRead = async (req, res) => {
         // Vérifier que la notification appartient à l'utilisateur
         const notification = await prisma.notification.findFirst({
             where: {
-                id,
+                id: id,
                 utilisateurId: userId
             }
         });
@@ -239,7 +239,7 @@ const markAsRead = async (req, res) => {
         }
         // Marquer comme lue
         const updatedNotification = await prisma.notification.update({
-            where: { id },
+            where: { id: id },
             data: {
                 statut: 'LUE',
                 dateLecture: new Date()
@@ -321,7 +321,7 @@ const deleteNotification = async (req, res) => {
         // Vérifier que la notification appartient à l'utilisateur
         const notification = await prisma.notification.findFirst({
             where: {
-                id,
+                id: id,
                 utilisateurId: userId
             }
         });
@@ -333,7 +333,7 @@ const deleteNotification = async (req, res) => {
             return;
         }
         await prisma.notification.delete({
-            where: { id }
+            where: { id: id }
         });
         console.log(`✅ Notification ${id} supprimée`);
         res.json({
@@ -368,7 +368,7 @@ const getNotificationById = async (req, res) => {
         }
         const notification = await prisma.notification.findFirst({
             where: {
-                id,
+                id: id,
                 utilisateurId: userId
             },
             include: {

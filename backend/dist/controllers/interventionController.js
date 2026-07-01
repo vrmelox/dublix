@@ -207,7 +207,7 @@ class InterventionController {
         try {
             const { id } = req.params;
             const intervention = await prisma.historiqueIntervention.findUnique({
-                where: { id },
+                where: { id: id },
                 include: {
                     equipement: true,
                     signalantUtilisateur: {
@@ -254,7 +254,7 @@ class InterventionController {
             }
             const { id } = req.params;
             const intervention = await prisma.historiqueIntervention.findUnique({
-                where: { id }
+                where: { id: id }
             });
             if (!intervention) {
                 console.log("❌ Intervention non trouvée");
@@ -267,14 +267,14 @@ class InterventionController {
                 return;
             }
             const updatedIntervention = await prisma.historiqueIntervention.update({
-                where: { id },
+                where: { id: id },
                 data: {
                     interventionValidee: true,
                     valideeParId: req.user.id,
                     dateModification: new Date()
                 },
                 include: {
-                    equipement: true,
+                    equipement: { select: { nom: true } },
                     intervenantUtilisateur: {
                         select: { nom: true, prenom: true }
                     }

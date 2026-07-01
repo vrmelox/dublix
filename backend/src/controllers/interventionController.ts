@@ -41,7 +41,7 @@ export class InterventionController {
       // Validation des champs obligatoires
       if (!equipementId || !typeIntervention) {
         console.log("❌ Champs obligatoires manquants");
-        res.status(400).json({ 
+        res.status(400).json({
           error: 'Champs obligatoires manquants',
           required: ['equipementId', 'typeIntervention']
         });
@@ -96,7 +96,7 @@ export class InterventionController {
         console.log("🔄 Mise à jour du statut de l'équipement");
         await prisma.equipement.update({
           where: { id: equipementId },
-          data: { 
+          data: {
             statut: statutApresIntervention,
             dateDerniereIntervention: new Date()
           }
@@ -107,18 +107,18 @@ export class InterventionController {
       // Créer une notification pour les administrateurs
       if (req.user.role === 'TECHNICIEN') {
         console.log("📧 Création de notifications pour les administrateurs");
-        
+
         // Récupérer tous les administrateurs
         const admins = await prisma.utilisateur.findMany({
-          where: { 
+          where: {
             role: 'ADMINISTRATEUR',
-            actif: true 
+            actif: true
           }
         });
 
         // Créer une notification pour chaque administrateur
         const notifications = await Promise.all(
-          admins.map(admin => 
+          admins.map(admin =>
             prisma.notification.create({
               data: {
                 utilisateurId: admin.id,
@@ -157,7 +157,7 @@ export class InterventionController {
 
     } catch (error) {
       console.error('💥 Erreur lors de la création de l\'intervention:', error);
-      res.status(500).json({ 
+      res.status(500).json({
         error: 'Erreur interne du serveur lors de la création de l\'intervention',
         details: error instanceof Error ? error.message : 'Erreur inconnue'
       });
@@ -171,17 +171,17 @@ export class InterventionController {
     console.log("📋 Récupération de toutes les interventions");
     try {
       const { page = 1, limit = 10, equipementId, validees, typeIntervention } = req.query;
-      
+
       const skip = (Number(page) - 1) * Number(limit);
-      
+
       const where: any = {};
-      
+
       // Filtrage par équipement
       if (equipementId) {
         where.equipementId = equipementId;
         console.log("🔍 Filtre équipement appliqué:", equipementId);
       }
-      
+
       // Filtrage par validation
       if (validees !== undefined) {
         where.interventionValidee = validees === 'true';
@@ -233,7 +233,7 @@ export class InterventionController {
 
     } catch (error) {
       console.error('💥 Erreur lors de la récupération des interventions:', error);
-      res.status(500).json({ 
+      res.status(500).json({
         error: 'Erreur interne du serveur',
         details: error instanceof Error ? error.message : 'Erreur inconnue'
       });
@@ -249,7 +249,7 @@ export class InterventionController {
       const { id } = req.params;
 
       const intervention = await prisma.historiqueIntervention.findUnique({
-        where: { id },
+        where: { id: id as string },
         include: {
           equipement: true,
           signalantUtilisateur: {
@@ -275,7 +275,7 @@ export class InterventionController {
 
     } catch (error) {
       console.error('💥 Erreur lors de la récupération de l\'intervention:', error);
-      res.status(500).json({ 
+      res.status(500).json({
         error: 'Erreur interne du serveur',
         details: error instanceof Error ? error.message : 'Erreur inconnue'
       });
@@ -302,7 +302,7 @@ export class InterventionController {
       const { id } = req.params;
 
       const intervention = await prisma.historiqueIntervention.findUnique({
-        where: { id }
+        where: { id: id as string }
       });
 
       if (!intervention) {
@@ -318,14 +318,14 @@ export class InterventionController {
       }
 
       const updatedIntervention = await prisma.historiqueIntervention.update({
-        where: { id },
+        where: { id: id as string },
         data: {
           interventionValidee: true,
           valideeParId: req.user.id,
           dateModification: new Date()
         },
         include: {
-          equipement: true,
+          equipement: { select: { nom: true } },
           intervenantUtilisateur: {
             select: { nom: true, prenom: true }
           }
@@ -356,7 +356,7 @@ export class InterventionController {
 
     } catch (error) {
       console.error('💥 Erreur lors de la validation de l\'intervention:', error);
-      res.status(500).json({ 
+      res.status(500).json({
         error: 'Erreur interne du serveur',
         details: error instanceof Error ? error.message : 'Erreur inconnue'
       });
@@ -373,7 +373,7 @@ export class InterventionController {
       const { limit = 10 } = req.query;
 
       const interventions = await prisma.historiqueIntervention.findMany({
-        where: { equipementId: equipmentId },
+        where: { equipementId: equipmentId as string },
         orderBy: { dateSignalement: 'desc' },
         take: Number(limit),
         include: {
@@ -395,7 +395,7 @@ export class InterventionController {
 
     } catch (error) {
       console.error('💥 Erreur lors de la récupération des interventions:', error);
-      res.status(500).json({ 
+      res.status(500).json({
         error: 'Erreur interne du serveur',
         details: error instanceof Error ? error.message : 'Erreur inconnue'
       });

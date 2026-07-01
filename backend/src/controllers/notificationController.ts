@@ -24,12 +24,12 @@ interface AuthenticatedRequest extends Request {
 export const getAllNotifications = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
     console.log('📧 Récupération des notifications...');
-    
+
     const userId = req.user?.id;
     if (!userId) {
-      res.status(401).json({ 
-        success: false, 
-        message: 'Utilisateur non authentifié' 
+      res.status(401).json({
+        success: false,
+        message: 'Utilisateur non authentifié'
       });
       return;
     }
@@ -133,9 +133,9 @@ export const getUnreadCount = async (req: AuthenticatedRequest, res: Response): 
   try {
     const userId = req.user?.id;
     if (!userId) {
-      res.status(401).json({ 
-        success: false, 
-        message: 'Utilisateur non authentifié' 
+      res.status(401).json({
+        success: false,
+        message: 'Utilisateur non authentifié'
       });
       return;
     }
@@ -170,9 +170,9 @@ export const getNotificationStats = async (req: AuthenticatedRequest, res: Respo
   try {
     const userId = req.user?.id;
     if (!userId) {
-      res.status(401).json({ 
-        success: false, 
-        message: 'Utilisateur non authentifié' 
+      res.status(401).json({
+        success: false,
+        message: 'Utilisateur non authentifié'
       });
       return;
     }
@@ -184,14 +184,14 @@ export const getNotificationStats = async (req: AuthenticatedRequest, res: Respo
       }),
       // Non lues
       prisma.notification.count({
-        where: { 
+        where: {
           utilisateurId: userId,
           statut: 'NON_LUE'
         }
       }),
       // Lues
       prisma.notification.count({
-        where: { 
+        where: {
           utilisateurId: userId,
           statut: 'LUE'
         }
@@ -246,9 +246,9 @@ export const markAsRead = async (req: AuthenticatedRequest, res: Response): Prom
     const userId = req.user?.id;
 
     if (!userId) {
-      res.status(401).json({ 
-        success: false, 
-        message: 'Utilisateur non authentifié' 
+      res.status(401).json({
+        success: false,
+        message: 'Utilisateur non authentifié'
       });
       return;
     }
@@ -256,7 +256,7 @@ export const markAsRead = async (req: AuthenticatedRequest, res: Response): Prom
     // Vérifier que la notification appartient à l'utilisateur
     const notification = await prisma.notification.findFirst({
       where: {
-        id,
+        id: id as string,
         utilisateurId: userId
       }
     });
@@ -271,7 +271,7 @@ export const markAsRead = async (req: AuthenticatedRequest, res: Response): Prom
 
     // Marquer comme lue
     const updatedNotification = await prisma.notification.update({
-      where: { id },
+      where: { id: id as string },
       data: {
         statut: 'LUE',
         dateLecture: new Date()
@@ -305,9 +305,9 @@ export const markAllAsRead = async (req: AuthenticatedRequest, res: Response): P
     const userId = req.user?.id;
 
     if (!userId) {
-      res.status(401).json({ 
-        success: false, 
-        message: 'Utilisateur non authentifié' 
+      res.status(401).json({
+        success: false,
+        message: 'Utilisateur non authentifié'
       });
       return;
     }
@@ -351,9 +351,9 @@ export const deleteNotification = async (req: AuthenticatedRequest, res: Respons
     const userId = req.user?.id;
 
     if (!userId) {
-      res.status(401).json({ 
-        success: false, 
-        message: 'Utilisateur non authentifié' 
+      res.status(401).json({
+        success: false,
+        message: 'Utilisateur non authentifié'
       });
       return;
     }
@@ -361,7 +361,7 @@ export const deleteNotification = async (req: AuthenticatedRequest, res: Respons
     // Vérifier que la notification appartient à l'utilisateur
     const notification = await prisma.notification.findFirst({
       where: {
-        id,
+        id: id as string,
         utilisateurId: userId
       }
     });
@@ -375,7 +375,7 @@ export const deleteNotification = async (req: AuthenticatedRequest, res: Respons
     }
 
     await prisma.notification.delete({
-      where: { id }
+      where: { id: id as string }
     });
 
     console.log(`✅ Notification ${id} supprimée`);
@@ -405,16 +405,16 @@ export const getNotificationById = async (req: AuthenticatedRequest, res: Respon
     const userId = req.user?.id;
 
     if (!userId) {
-      res.status(401).json({ 
-        success: false, 
-        message: 'Utilisateur non authentifié' 
+      res.status(401).json({
+        success: false,
+        message: 'Utilisateur non authentifié'
       });
       return;
     }
 
     const notification = await prisma.notification.findFirst({
       where: {
-        id,
+        id: id as string,
         utilisateurId: userId
       },
       include: {

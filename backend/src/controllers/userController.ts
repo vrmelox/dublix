@@ -135,20 +135,20 @@ export async function resetPassword(req: Request, res: Response) {
 export async function getAllUsers(req: Request, res: Response) {
   console.log("👥 Récupération de tous les utilisateurs");
   try {
-    const { 
-      page = 1, 
-      limit = 10, 
-      search, 
-      role, 
+    const {
+      page = 1,
+      limit = 10,
+      search,
+      role,
       actif = 'true',
       sortBy = 'dateCreation',
       sortOrder = 'desc'
     } = req.query;
-    
+
     const skip = (Number(page) - 1) * Number(limit);
-    
+
     const where: any = {};
-    
+
     // Filtrage par recherche (nom, prénom, email)
     if (search) {
       where.OR = [
@@ -158,7 +158,7 @@ export async function getAllUsers(req: Request, res: Response) {
       ];
       console.log("🔍 Recherche appliquée:", search);
     }
-    
+
     // Filtrage par rôle
     if (role && ['ADMINISTRATEUR', 'TECHNICIEN', 'UTILISATEUR'].includes(role as string)) {
       where.role = role as RoleType;
@@ -182,7 +182,7 @@ export async function getAllUsers(req: Request, res: Response) {
     }
 
     console.log("🗄️ Requête database...");
-    
+
     const [utilisateurs, total] = await Promise.all([
       prisma.utilisateur.findMany({
         where,
@@ -232,7 +232,7 @@ export async function getAllUsers(req: Request, res: Response) {
 
   } catch (error) {
     console.error('💥 Erreur lors de la récupération des utilisateurs:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: 'Erreur interne du serveur',
       details: error instanceof Error ? error.message : 'Erreur inconnue'
     });
@@ -249,8 +249,8 @@ export async function getUsersByRole(req: Request, res: Response) {
     const { actif = 'true' } = req.query;
 
     // Vérifier que le rôle est valide
-    if (!['ADMINISTRATEUR', 'TECHNICIEN', 'UTILISATEUR'].includes(role.toUpperCase())) {
-      res.status(400).json({ 
+    if (!['ADMINISTRATEUR', 'TECHNICIEN', 'UTILISATEUR'].includes((role as string).toUpperCase())) {
+      res.status(400).json({
         error: 'Rôle invalide',
         validRoles: ['ADMINISTRATEUR', 'TECHNICIEN', 'UTILISATEUR']
       });
@@ -258,11 +258,11 @@ export async function getUsersByRole(req: Request, res: Response) {
     }
 
     const whereCondition: any = {
-      role: role.toUpperCase() as RoleType
+      role: (role as string).toUpperCase() as RoleType
     };
 
     if (actif !== 'all') {
-      whereCondition.actif = actif === 'true';
+      whereCondition.actif = (actif as string) === 'true';
     }
 
     const utilisateurs = await prisma.utilisateur.findMany({
@@ -290,14 +290,14 @@ export async function getUsersByRole(req: Request, res: Response) {
     console.log(`✅ ${utilisateurs.length} ${role}(s) trouvé(s)`);
 
     res.json({
-      role: role.toUpperCase(),
+      role: (role as string).toUpperCase(),
       count: utilisateurs.length,
       utilisateurs
     });
 
   } catch (error) {
     console.error('💥 Erreur lors de la récupération par rôle:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: 'Erreur interne du serveur',
       details: error instanceof Error ? error.message : 'Erreur inconnue'
     });
@@ -313,7 +313,7 @@ export async function getUserById(req: Request, res: Response) {
     const { id } = req.params;
 
     const utilisateur = await prisma.utilisateur.findUnique({
-      where: { id },
+      where: { id: id as string },
       select: {
         id: true,
         nom: true,
@@ -382,7 +382,7 @@ export async function getUserById(req: Request, res: Response) {
 
   } catch (error) {
     console.error('💥 Erreur lors de la récupération de l\'utilisateur:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: 'Erreur interne du serveur',
       details: error instanceof Error ? error.message : 'Erreur inconnue'
     });
@@ -426,7 +426,7 @@ export async function getUserStats(req: Request, res: Response) {
 
   } catch (error) {
     console.error('💥 Erreur lors du calcul des statistiques:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: 'Erreur interne du serveur',
       details: error instanceof Error ? error.message : 'Erreur inconnue'
     });

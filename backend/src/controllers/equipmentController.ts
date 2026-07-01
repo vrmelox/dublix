@@ -387,7 +387,7 @@ export class EquipmentController {
       const { id } = req.params;
 
       const equipement = await prisma.equipement.findUnique({
-        where: { id },
+        where: { id: id as string },
         include: {
           service: true, // Service principal
           services: {    // 🆕 Tous les services
@@ -487,7 +487,7 @@ export class EquipmentController {
 
       // Vérifier si l'équipement existe
       const existingEquipment = await prisma.equipement.findUnique({
-        where: { id }
+        where: { id: id as string }
       });
 
       if (!existingEquipment) {
@@ -583,7 +583,7 @@ export class EquipmentController {
 
       // Mettre à jour l'équipement avec ou sans services
       const equipement = await prisma.equipement.update({
-        where: { id },
+        where: { id: id as string },
         data: {
           ...updateData,
           ...serviceUpdates
@@ -634,7 +634,7 @@ export class EquipmentController {
 
       // Vérifier si l'équipement existe
       const equipement = await prisma.equipement.findUnique({
-        where: { id }
+        where: { id: id as string }
       });
 
       if (!equipement) {
@@ -660,7 +660,7 @@ export class EquipmentController {
       // Supprimer l'équipement de la base de données
       // Les relations services seront supprimées automatiquement grâce à onDelete: Cascade
       await prisma.equipement.delete({
-        where: { id }
+        where: { id: id as string }
       });
 
       console.log("✅ Équipement supprimé avec succès");
@@ -690,7 +690,7 @@ export class EquipmentController {
       const { id } = req.params;
 
       const equipement = await prisma.equipement.findUnique({
-        where: { id }
+        where: { id: id as string }
       });
 
       if (!equipement) {
@@ -711,11 +711,11 @@ export class EquipmentController {
 
       // Générer un nouveau QR code
       console.log("🆕 Génération nouveau QR code");
-      const qrCodePath = await QRCodeService.generateEquipmentQRCode(id);
+      const qrCodePath = await QRCodeService.generateEquipmentQRCode(id as string);
 
       // Mettre à jour l'équipement
       await prisma.equipement.update({
-        where: { id },
+        where: { id: id as string },
         data: { qrcode: qrCodePath }
       });
 
@@ -746,7 +746,7 @@ export class EquipmentController {
     try {
       const { id } = req.params;
 
-      const qrCodeBase64 = await QRCodeService.generateQRCodeBase64(id);
+      const qrCodeBase64 = await QRCodeService.generateQRCodeBase64(id as string);
 
       console.log("✅ QR code base64 généré");
 
@@ -765,10 +765,10 @@ export class EquipmentController {
       });
     }
   }
-  
-/**
-   * Signaler une panne d'équipement
-   */
+
+  /**
+     * Signaler une panne d'équipement
+     */
   static async reportBreakdown(req: Request, res: Response): Promise<void> {
     console.log("🚨 Signalement de panne pour équipement:", req.params.id);
     try {
@@ -806,7 +806,7 @@ export class EquipmentController {
 
       // Vérifier que l'équipement existe
       const equipement = await prisma.equipement.findUnique({
-        where: { id },
+        where: { id: id as string },
         include: {
           service: true,
           services: {
@@ -836,7 +836,7 @@ export class EquipmentController {
       console.log("📝 Création de l'intervention de signalement...");
       const intervention = await prisma.historiqueIntervention.create({
         data: {
-          equipementId: id,
+          equipementId: id as string,
           dateSignalement: new Date(),
           dateIntervention: null, // Pas encore d'intervention
           signalePar: req.user.id,
@@ -863,7 +863,7 @@ export class EquipmentController {
       // Mettre à jour le statut de l'équipement
       console.log(`🔄 Mise à jour du statut: ${equipement.statut} → ${nouveauStatut}`);
       const equipementMisAJour = await prisma.equipement.update({
-        where: { id },
+        where: { id: id as string },
         data: {
           statut: nouveauStatut,
           updatedBy: req.user.id,
@@ -882,7 +882,7 @@ export class EquipmentController {
           : req.user.email || 'Utilisateur inconnu';
 
         await NotificationService.notifyBreakdownReport(
-          id,
+          id as string,
           equipement.nom,
           signalantName,
           details
@@ -904,7 +904,7 @@ export class EquipmentController {
             titre: `Panne signalée - ${equipement.nom}`,
             description: `Type: ${problemType}. Détails: ${details}`,
             dateEvenement: new Date(),
-            equipementId: id,
+            equipementId: id as string,
             interventionId: intervention.id
           }
         });
