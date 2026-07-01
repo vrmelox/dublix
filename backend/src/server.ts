@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 4000;
 
 // Configuration CORS plus permissive pour le développement
 app.use(cors({
-  origin: ['https://bioqrsuivi.com', 'http://127.0.0.1:3000'],
+  origin: ['https://bioqrsuivi.com', 'http://127.0.0.1:3000', 'http://localhost:3000'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']

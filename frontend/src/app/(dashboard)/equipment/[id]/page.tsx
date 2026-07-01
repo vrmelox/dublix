@@ -71,7 +71,7 @@ interface EquiProps {
 const EquipmentID = () => {
     const params = useParams();
     const equipId = params?.id as string;
-    
+
     const [equipment, setEquipment] = useState<EquipmentData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -79,10 +79,10 @@ const EquipmentID = () => {
     // Fonction pour récupérer le token d'authentification
     const getAuthToken = () => {
         if (typeof window !== 'undefined') {
-            return localStorage.getItem('token') || 
-                   localStorage.getItem('authToken') || 
-                   sessionStorage.getItem('token') || 
-                   sessionStorage.getItem('authToken');
+            return localStorage.getItem('token') ||
+                localStorage.getItem('authToken') ||
+                sessionStorage.getItem('token') ||
+                sessionStorage.getItem('authToken');
         }
         return null;
     };
@@ -109,7 +109,8 @@ const EquipmentID = () => {
                 headers['Authorization'] = `Bearer ${token}`;
             }
 
-            const response = await fetch(`/api/equipments/${equipId}`, {
+            const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api$/, '') || 'https://bioqrsuivi.com';
+            const response = await fetch(`${API_BASE_URL}/api/equipments/${equipId}`, {
                 method: 'GET',
                 headers
             });
@@ -158,11 +159,11 @@ const EquipmentID = () => {
         nom: equipment.nom,
         modèle: equipment.modele,
         // Utiliser serviceNames en priorité, puis fallback
-        services: equipment.serviceNames && equipment.serviceNames.length > 0 
-            ? equipment.serviceNames 
-            : equipment.service 
-            ? [equipment.service.nom] 
-            : [equipment.typeMateriel || 'Non spécifié'],
+        services: equipment.serviceNames && equipment.serviceNames.length > 0
+            ? equipment.serviceNames
+            : equipment.service
+                ? [equipment.service.nom]
+                : [equipment.typeMateriel || 'Non spécifié'],
         photo: equipment.photo, // 🔧 SANS le "/" au début
         qrcode: equipment.qrcode, // 🔧 SANS le "/" au début
         // Ajouter tous les champs manquants
@@ -205,13 +206,13 @@ const EquipmentID = () => {
                     <h3 className="text-lg font-medium text-red-800 mb-2">Erreur</h3>
                     <p className="text-red-700 mb-4">{error}</p>
                     <div className="flex gap-2">
-                        <button 
+                        <button
                             onClick={fetchEquipment}
                             className="flex-1 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
                         >
                             Réessayer
                         </button>
-                        <button 
+                        <button
                             onClick={() => window.history.back()}
                             className="flex-1 bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors"
                         >
@@ -235,7 +236,7 @@ const EquipmentID = () => {
                     </div>
                     <h2 className="text-xl font-semibold text-gray-700 mb-2">Équipement introuvable</h2>
                     <p className="text-gray-500 mb-6">L'équipement demandé n'existe pas ou a été supprimé.</p>
-                    <button 
+                    <button
                         onClick={() => window.history.back()}
                         className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition-colors"
                     >
@@ -249,9 +250,9 @@ const EquipmentID = () => {
     // Affichage normal avec les données
     return (
         <div className="m-6">
-            <EquipmentPage equipement={selectedEquip}/>
-            <SignalerPanne 
-                equipmentName={selectedEquip.nom} 
+            <EquipmentPage equipement={selectedEquip} />
+            <SignalerPanne
+                equipmentName={selectedEquip.nom}
                 equipmentId={selectedEquip.equipId}
             />
         </div>

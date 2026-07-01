@@ -18,7 +18,7 @@ export default function ResetPassword() {
     const getUserFromToken = () => {
         const token = localStorage.getItem('token');
         if (!token) return null;
-        
+
         try {
             const payload = JSON.parse(atob(token.split('.')[1]));
             return { id: payload.id, role: payload.role };
@@ -77,7 +77,8 @@ export default function ResetPassword() {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('/api/users/reset-password', {
+            const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api$/, '') || 'https://bioqrsuivi.com';
+            const response = await fetch(`${API_BASE_URL}/api/users/reset-password`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -142,9 +143,9 @@ export default function ResetPassword() {
                                 onClick={() => setShowPassword(!showPassword)}
                                 className="text-gray-500 hover:text-gray-700"
                             >
-                                <FontAwesomeIcon 
-                                    icon={showPassword ? faEyeSlash : faEye} 
-                                    className="w-4 h-4" 
+                                <FontAwesomeIcon
+                                    icon={showPassword ? faEyeSlash : faEye}
+                                    className="w-4 h-4"
                                 />
                             </button>
                         </div>
@@ -167,9 +168,9 @@ export default function ResetPassword() {
                                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                 className="text-gray-500 hover:text-gray-700"
                             >
-                                <FontAwesomeIcon 
-                                    icon={showConfirmPassword ? faEyeSlash : faEye} 
-                                    className="w-4 h-4" 
+                                <FontAwesomeIcon
+                                    icon={showConfirmPassword ? faEyeSlash : faEye}
+                                    className="w-4 h-4"
                                 />
                             </button>
                         </div>

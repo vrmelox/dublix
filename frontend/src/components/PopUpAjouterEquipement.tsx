@@ -7,7 +7,7 @@ const services = [
   "Cardiologie", "Réanimation", "Radiologie", "Chirurgie",
   "Urgences", "Soins Intensifs", "Gynécologie", "Néonatologie",
   "Pédiatrie", "Laboratoire", "Hématologie", "Anesthésie", "Banque de sang", "Néphrologie et Hémodialyse", "Urologie", "Orthopédie", "Bactériologie",
-  "Réadaptation", 
+  "Réadaptation",
 ];
 
 type NewEquipement = {
@@ -83,10 +83,10 @@ const PopUpAjouterEquipement = ({ onEquipmentAdded }: Props) => {
 
   const getAuthToken = () => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('token') || 
-             localStorage.getItem('authToken') || 
-             sessionStorage.getItem('token') || 
-             sessionStorage.getItem('authToken');
+      return localStorage.getItem('token') ||
+        localStorage.getItem('authToken') ||
+        sessionStorage.getItem('token') ||
+        sessionStorage.getItem('authToken');
     }
     return null;
   };
@@ -145,7 +145,8 @@ const PopUpAjouterEquipement = ({ onEquipmentAdded }: Props) => {
         throw new Error("Token d'authentification manquant. Veuillez vous reconnecter.");
       }
 
-      const response = await fetch('/api/equipments', {
+      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api$/, '') || 'https://bioqrsuivi.com';
+      const response = await fetch(`${API_BASE_URL}/api/equipments`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -192,7 +193,7 @@ const PopUpAjouterEquipement = ({ onEquipmentAdded }: Props) => {
 
       // Succès
       setSuccess("🎉 Équipement ajouté avec succès !");
-      
+
       // Attendre un peu pour que l'utilisateur voie le message de succès
       setTimeout(() => {
         resetForm();
@@ -254,15 +255,14 @@ const PopUpAjouterEquipement = ({ onEquipmentAdded }: Props) => {
   // Indicateur de taille de fichier
   const FileSizeIndicator = ({ file }: { file: File | null }) => {
     if (!file) return null;
-    
+
     const sizeInMB = file.size / (1024 * 1024);
     const isLarge = sizeInMB > 3; // Avertissement si > 3MB
     const isTooLarge = sizeInMB > 5; // Erreur si > 5MB
-    
+
     return (
-      <div className={`text-xs mt-1 flex items-center ${
-        isTooLarge ? 'text-red-600' : isLarge ? 'text-orange-600' : 'text-green-600'
-      }`}>
+      <div className={`text-xs mt-1 flex items-center ${isTooLarge ? 'text-red-600' : isLarge ? 'text-orange-600' : 'text-green-600'
+        }`}>
         <Info size={12} className="mr-1" />
         <span>
           Taille: {sizeInMB.toFixed(2)} MB

@@ -33,7 +33,7 @@ interface UserProviderProps {
 }
 
 // URL de base de l'API
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://bioqrsuivi.com';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api$/, '') || 'https://bioqrsuivi.com';
 
 // Fonction utilitaire pour vérifier la validité du token
 const isTokenValid = (token: string): boolean => {
@@ -49,7 +49,7 @@ const isTokenValid = (token: string): boolean => {
 // Provider du contexte
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const router = useRouter();
-  
+
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -67,9 +67,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     try {
       setLoading(true);
       setError(null);
-      
+
       const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-      
+
       if (!token) {
         throw new Error('Aucun token trouvé');
       }
@@ -112,7 +112,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       const errorMessage = err instanceof Error ? err.message : 'Erreur inconnue';
       setError(errorMessage);
       console.error('Erreur lors de la récupération de l\'utilisateur:', err);
-      
+
       // Nettoyer l'auth pour toutes les erreurs d'authentification ou de serveur
       const authErrors = [
         'Session expirée',
@@ -122,7 +122,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         'Utilisateur introuvable',
         'Erreur serveur - Session expirée'
       ];
-      
+
       if (authErrors.some(error => errorMessage.includes(error))) {
         clearAuth();
         // Délai pour éviter les redirections en boucle

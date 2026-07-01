@@ -49,12 +49,12 @@ interface EquipmentData {
 const ListEquipementPage = () => {
     const user = useUser();
     const role = user.user?.role;
-    
+
     // États pour les données
     const [equipments, setEquipments] = useState<EquipmentData[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    
+
     // États pour le filtrage et la pagination
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -66,10 +66,10 @@ const ListEquipementPage = () => {
     // Fonction pour récupérer le token d'authentification
     const getAuthToken = () => {
         if (typeof window !== 'undefined') {
-            return localStorage.getItem('token') || 
-                   localStorage.getItem('authToken') || 
-                   sessionStorage.getItem('token') || 
-                   sessionStorage.getItem('authToken');
+            return localStorage.getItem('token') ||
+                localStorage.getItem('authToken') ||
+                sessionStorage.getItem('token') ||
+                sessionStorage.getItem('authToken');
         }
         return null;
     };
@@ -77,7 +77,7 @@ const ListEquipementPage = () => {
     // 🆕 Extraire les services uniques depuis les équipements
     const availableServices = useMemo(() => {
         const servicesSet = new Set<string>();
-        
+
         equipments.forEach(equipment => {
             // Récupérer les services depuis serviceNames (priorité)
             if (equipment.serviceNames && equipment.serviceNames.length > 0) {
@@ -96,7 +96,7 @@ const ListEquipementPage = () => {
                 servicesSet.add(equipment.typeMateriel.trim());
             }
         });
-        
+
         // Convertir en array et trier alphabétiquement
         return Array.from(servicesSet).sort((a, b) => a.localeCompare(b, 'fr', { numeric: true }));
     }, [equipments]);
@@ -129,7 +129,8 @@ const ListEquipementPage = () => {
 
             console.log(`🔍 Récupération des équipements - Page ${currentPage}...`);
 
-            const response = await fetch(`/api/equipments?${params}`, {
+            const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api$/, '') || 'https://bioqrsuivi.com';
+            const response = await fetch(`${API_BASE_URL}/api/equipments?${params}`, {
                 method: 'GET',
                 headers
             });
@@ -177,11 +178,11 @@ const ListEquipementPage = () => {
     // 🆕 Filtrer les équipements par service sélectionné
     const filteredEquipments = useMemo(() => {
         if (!selectedCategory) return equipments;
-        
+
         return equipments.filter(equipment => {
             // Filtrer par les nouveaux serviceNames (priorité)
             if (equipment.serviceNames && equipment.serviceNames.length > 0) {
-                return equipment.serviceNames.some(serviceName => 
+                return equipment.serviceNames.some(serviceName =>
                     serviceName.toLowerCase().includes(selectedCategory.toLowerCase())
                 );
             }
@@ -242,7 +243,7 @@ const ListEquipementPage = () => {
                     </div>
                     <h3 className="text-lg font-medium text-red-800 mb-2">Erreur</h3>
                     <p className="text-red-700 mb-4">{error}</p>
-                    <button 
+                    <button
                         onClick={() => {
                             fetchEquipments();
                         }}
@@ -269,7 +270,7 @@ const ListEquipementPage = () => {
                             className="w-full sm:w-96 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         />
                     </div>
-                    
+
                     {role && ["ADMINISTRATEUR", "TECHNICIEN"].includes(role) && (
                         <PopUpAjouterEquipement onEquipmentAdded={handleEquipmentAdded} />
                     )}
@@ -286,18 +287,17 @@ const ListEquipementPage = () => {
                         ({availableServices.length} service{availableServices.length > 1 ? 's' : ''} disponible{availableServices.length > 1 ? 's' : ''})
                     </span>
                 </div>
-                
+
                 {availableServices.length > 0 ? (
                     <div className="w-full flex flex-wrap gap-3 py-4 px-2 text-[#333652]">
                         {availableServices.map((serviceName) => (
                             <button
                                 key={serviceName}
                                 onClick={() => handleCategoryClick(serviceName)}
-                                className={`px-4 py-2 cursor-pointer text-sm rounded-full shadow-sm transition duration-200 ease-in-out hover:shadow-md hover:scale-[1.03] font-medium ${
-                                    selectedCategory === serviceName
+                                className={`px-4 py-2 cursor-pointer text-sm rounded-full shadow-sm transition duration-200 ease-in-out hover:shadow-md hover:scale-[1.03] font-medium ${selectedCategory === serviceName
                                         ? "bg-[#F3E1C0] text-[#333652] shadow-md scale-[1.03]"
                                         : "bg-[#F5F5F5] hover:bg-[#F3E1C0]"
-                                }`}
+                                    }`}
                             >
                                 {serviceName}
                             </button>
@@ -314,7 +314,7 @@ const ListEquipementPage = () => {
                         )}
                     </div>
                 )}
-                
+
                 {/* Clear Filter Button */}
                 {selectedCategory && (
                     <button
@@ -333,40 +333,40 @@ const ListEquipementPage = () => {
                         {selectedCategory ? `Équipements - ${selectedCategory}` : "Tous les équipements"}
                     </h2>
                     <span className="text-sm text-gray-500">
-                        {selectedCategory 
+                        {selectedCategory
                             ? `${filteredEquipments.length} équipement${filteredEquipments.length > 1 ? 's' : ''} filtré${filteredEquipments.length > 1 ? 's' : ''}`
                             : `${totalEquipments} équipement${totalEquipments > 1 ? 's' : ''} au total`
                         }
                     </span>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {filteredEquipments.length > 0 ? (
                         filteredEquipments.map((equipment) => (
-                            <EquipementCard 
-                                key={equipment.id} 
+                            <EquipementCard
+                                key={equipment.id}
                                 equipement={{
                                     equipId: equipment.id,
                                     nom: equipment.nom,
                                     modèle: equipment.modele,
                                     // 🆕 Utiliser serviceNames en priorité, puis fallback
-                                    services: equipment.serviceNames && equipment.serviceNames.length > 0 
-                                        ? equipment.serviceNames 
-                                        : equipment.service 
-                                        ? [equipment.service.nom] 
-                                        : [equipment.typeMateriel || 'Non spécifié'],
+                                    services: equipment.serviceNames && equipment.serviceNames.length > 0
+                                        ? equipment.serviceNames
+                                        : equipment.service
+                                            ? [equipment.service.nom]
+                                            : [equipment.typeMateriel || 'Non spécifié'],
                                     photo: `/${equipment.photo}`,
                                     qrcode: `/${equipment.qrcode}`
-                                }} 
+                                }}
                             />
                         ))
                     ) : (
                         <div className="col-span-full text-center py-8 text-gray-500">
-                            {selectedCategory 
+                            {selectedCategory
                                 ? `Aucun équipement trouvé dans le service "${selectedCategory}"`
                                 : searchTerm
-                                ? `Aucun équipement trouvé pour "${searchTerm}"`
-                                : "Aucun équipement disponible"
+                                    ? `Aucun équipement trouvé pour "${searchTerm}"`
+                                    : "Aucun équipement disponible"
                             }
                         </div>
                     )}
@@ -375,7 +375,7 @@ const ListEquipementPage = () => {
 
             {/* Pagination - seulement si pas de filtre de catégorie */}
             {!selectedCategory && totalPages > 1 && (
-                <Pagination 
+                <Pagination
                     totalPages={totalPages}
                     currentPage={currentPage}
                     onPageChange={handlePageChange}

@@ -37,10 +37,10 @@ const PopUpAjouterPersonne = ({ open, onClose, onSuccess }: PopUpAjouterPersonne
   // ✅ FONCTION CORRIGÉE POUR RÉCUPÉRER LE TOKEN
   const getAuthToken = () => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('token') || 
-             localStorage.getItem('authToken') || 
-             sessionStorage.getItem('token') || 
-             sessionStorage.getItem('authToken');
+      return localStorage.getItem('token') ||
+        localStorage.getItem('authToken') ||
+        sessionStorage.getItem('token') ||
+        sessionStorage.getItem('authToken');
     }
     return null;
   };
@@ -55,7 +55,7 @@ const PopUpAjouterPersonne = ({ open, onClose, onSuccess }: PopUpAjouterPersonne
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    
+
     const { nom, prenom, email, role } = formData;
 
     if (!nom || !prenom || !email || !role) {
@@ -68,13 +68,14 @@ const PopUpAjouterPersonne = ({ open, onClose, onSuccess }: PopUpAjouterPersonne
     try {
       // ✅ UTILISATION DE LA FONCTION CORRIGÉE
       const token = getAuthToken();
-      
+
       if (!token) {
         throw new Error("Token d'authentification manquant. Veuillez vous reconnecter.");
       }
 
       // ✅ URL CORRIGÉE - utilise /api au lieu de localhost
-      const response = await fetch("/api/users/create", {
+      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api$/, '') || 'https://bioqrsuivi.com';
+      const response = await fetch(`${API_BASE_URL}/api/users/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -89,15 +90,15 @@ const PopUpAjouterPersonne = ({ open, onClose, onSuccess }: PopUpAjouterPersonne
           adresse: formData.adresse,
         }),
       });
-      
+
       const responseData = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(responseData.message || "Erreur lors de l'ajout");
       }
 
       alert(`Personne ajoutée avec succès ! Mot de passe par défaut: ${responseData.motDePasseParDefaut}`);
-      
+
       // Réinitialiser le formulaire
       setFormData({
         nom: "",
@@ -107,14 +108,14 @@ const PopUpAjouterPersonne = ({ open, onClose, onSuccess }: PopUpAjouterPersonne
         adresse: "",
         role: "",
       });
-      
+
       // Appeler le callback de succès si fourni
       if (onSuccess) {
         onSuccess();
       }
-      
+
       onClose();
-      
+
     } catch (error: any) {
       console.error("Erreur:", error);
       setError(error.message || "Erreur réseau");

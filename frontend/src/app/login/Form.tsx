@@ -54,7 +54,8 @@ export default function Form() {
         setError('');
 
         try {
-            const response = await fetch('/api/users/login', {
+            const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api$/, '') || 'https://bioqrsuivi.com';
+            const response = await fetch(`${API_BASE_URL}/api/users/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -73,10 +74,10 @@ export default function Form() {
             }
 
             localStorage.setItem('token', data.token);
-            
+
             const payload = JSON.parse(atob(data.token.split('.')[1]));
             const userRole = payload.role;
-            
+
             if (data.forceReset) {
                 router.push('/reset-password');
             } else {
@@ -107,7 +108,7 @@ export default function Form() {
                         {error}
                     </div>
                 )}
-                
+
                 <div>
                     <input
                         type="email"
@@ -118,7 +119,7 @@ export default function Form() {
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base"
                     />
                 </div>
-                
+
                 <div>
                     <input
                         type="password"
@@ -130,8 +131,8 @@ export default function Form() {
                     />
                 </div>
 
-                <button 
-                    type="submit" 
+                <button
+                    type="submit"
                     disabled={loading}
                     className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium py-3 px-6 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 disabled:opacity-50"
                 >

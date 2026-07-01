@@ -212,15 +212,15 @@ const TechnicianListPage = () => {
         >
             <div className="flex items-center gap-4 mb-2">
                 {/* 🎨 Icône FontAwesome pour les techniciens */}
-                <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center">
+                <div className="shrink-0 w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center">
                     <FontAwesomeIcon
                         icon={faUserCog}
                         className="text-orange-600 text-lg"
                     />
                 </div>
-                <div>
-                    <h3 className="font-semibold">{item.name}</h3>
-                    <p className="text-xs text-gray-500">{item.email}</p>
+                <div className="min-w-0 flex-1">
+                    <h3 className="font-semibold truncate">{item.name}</h3>
+                    <p className="text-xs text-gray-500 truncate">{item.email}</p>
                 </div>
             </div>
             <div className="text-sm text-gray-700 space-y-1 mb-3">
@@ -230,11 +230,10 @@ const TechnicianListPage = () => {
                 </p>
                 <p>
                     <span className="font-semibold">Statut: </span>
-                    <span className={`px-2 py-1 rounded-full text-xs ${
-                        item.status === 'Actif'
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-red-100 text-red-800'
-                    }`}>
+                    <span className={`px-2 py-1 rounded-full text-xs ${item.status === 'Actif'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
+                        }`}>
                         {item.status}
                     </span>
                 </p>
@@ -260,7 +259,7 @@ const TechnicianListPage = () => {
                     </button>
                 </Link>
                 {role === "ADMINISTRATEUR" && (
-                    <button 
+                    <button
                         onClick={() => handleDelete(item.id)}
                         className="flex items-center justify-center rounded-full bg-red-500 hover:bg-red-600 w-8 h-8"
                     >
@@ -276,26 +275,25 @@ const TechnicianListPage = () => {
             key={item.id}
             className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-bensPurpleLight"
         >
-            <td className="flex items-center gap-4 p-4">
+            <td className="flex items-center gap-4 p-4 min-w-0">
                 {/* 🎨 Icône FontAwesome au lieu de la photo */}
-                <div className="md:hidden xl:block w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
+                <div className="shrink-0 md:hidden xl:flex w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
                     <FontAwesomeIcon
                         icon={faUserCog}
                         className="text-orange-600 text-lg"
                     />
                 </div>
-                <div className="flex flex-col">
-                    <h3 className="font-semibold">{item.name}</h3>
-                    <p className="text-xs text-gray-500">{item.email}</p>
+                <div className="flex flex-col min-w-0 flex-1">
+                    <h3 className="font-semibold truncate">{item.name}</h3>
+                    <p className="text-xs text-gray-500 truncate">{item.email}</p>
                 </div>
             </td>
             <td className="hidden md:table-cell">{item.technicianId}</td>
             <td className="hidden md:table-cell">
-                <span className={`px-2 py-1 rounded-full text-xs ${
-                    item.status === 'Actif'
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-red-100 text-red-800'
-                }`}>
+                <span className={`px-2 py-1 rounded-full text-xs ${item.status === 'Actif'
+                    ? 'bg-green-100 text-green-800'
+                    : 'bg-red-100 text-red-800'
+                    }`}>
                     {item.status}
                 </span>
             </td>
@@ -310,7 +308,7 @@ const TechnicianListPage = () => {
                 <div className="flex items-center gap-2">
                     <Link href={`/list/technicians/${item.id}`}>
                         <button className="w-7 h-7 flex items-center justify-center rounded-full bg-benSky">
-                            <Image src="/view.png" alt="" width={16} height={16}/>
+                            <Image src="/view.png" alt="" width={16} height={16} />
                         </button>
                     </Link>
                     {role === "ADMINISTRATEUR" && (
@@ -318,7 +316,7 @@ const TechnicianListPage = () => {
                             onClick={() => handleDelete(item.id)}
                             className="w-7 h-7 flex items-center justify-center rounded-full bg-red-500 hover:bg-red-600"
                         >
-                            <Image src="/delete.png" alt="" width={16} height={16}/>
+                            <Image src="/delete.png" alt="" width={16} height={16} />
                         </button>
                     )}
                 </div>
@@ -371,10 +369,10 @@ const TechnicianListPage = () => {
                             className="w-8 h-8 flex items-center justify-center rounded-full bg-bensYellow hover:bg-yellow-400"
                             title="Actualiser"
                         >
-                            <Image src="/filter.png" alt="" height={14} width={14}/>
+                            <Image src="/filter.png" alt="" height={14} width={14} />
                         </button>
                         <button className="w-8 h-8 flex items-center justify-center rounded-full bg-bensYellow">
-                            <Image src="/sort.png" alt="" height={14} width={14}/>
+                            <Image src="/sort.png" alt="" height={14} width={14} />
                         </button>
                         {role === "ADMINISTRATEUR" && (
                             <button

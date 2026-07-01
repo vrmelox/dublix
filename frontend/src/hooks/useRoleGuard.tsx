@@ -9,7 +9,7 @@ type UserRole = 'ADMINISTRATEUR' | 'TECHNICIEN' | 'UTILISATEUR';
 
 // 🔧 CORRECTION : S'assurer qu'il n'y a pas de double /api
 const getApiBaseUrl = () => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://bioqrsuivi.com';
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api$/, '') || 'https://bioqrsuivi.com';
   // Enlever /api à la fin s'il existe pour éviter le double /api
   return baseUrl.replace(/\/api$/, '');
 };
@@ -38,14 +38,14 @@ export const useRoleGuard = (requiredRole: UserRole): UseRoleGuardReturn => {
       try {
         console.log(`🔒 Vérification d'accès pour le rôle: ${requiredRole}`);
         console.log(`📍 Page actuelle: ${pathname}`);
-        
+
         const token = localStorage.getItem('token');
-        
+
         if (!token) {
           console.log('❌ Aucun token trouvé - redirection vers login');
           hasChecked.current = true;
           setIsLoading(false);
-          
+
           // 🔧 CORRECTION : Éviter la redirection si déjà sur /login
           if (pathname !== '/login') {
             router.replace('/login');
@@ -56,7 +56,7 @@ export const useRoleGuard = (requiredRole: UserRole): UseRoleGuardReturn => {
         // 🔧 CORRECTION : URL garantie sans double /api
         const apiUrl = `${API_BASE_URL}/api/me`;
         console.log(`🌐 URL API: ${apiUrl}`);
-        
+
         const response = await fetch(apiUrl, {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -69,7 +69,7 @@ export const useRoleGuard = (requiredRole: UserRole): UseRoleGuardReturn => {
           localStorage.removeItem('token');
           hasChecked.current = true;
           setIsLoading(false);
-          
+
           // 🔧 CORRECTION : Éviter la redirection si déjà sur /login
           if (pathname !== '/login') {
             router.replace('/login');
@@ -80,23 +80,23 @@ export const useRoleGuard = (requiredRole: UserRole): UseRoleGuardReturn => {
         const userData = await response.json();
         const actualRole = userData.role as UserRole;
         setUserRole(actualRole);
-        
+
         console.log(`👤 Rôle utilisateur: ${actualRole}`);
         console.log(`🎯 Rôle requis: ${requiredRole}`);
-        
+
         // RESTRICTION STRICTE : seul le rôle exact peut accéder à cette page
         if (actualRole !== requiredRole) {
           console.log(`🚫 Accès refusé - redirection vers la page du rôle ${actualRole}`);
-          
+
           const redirectPath = actualRole === 'ADMINISTRATEUR' ? '/administrateur' :
-                              actualRole === 'TECHNICIEN' ? '/technicien' :
-                              actualRole === 'UTILISATEUR' ? '/utilisateur' : '/login';
-          
+            actualRole === 'TECHNICIEN' ? '/technicien' :
+              actualRole === 'UTILISATEUR' ? '/utilisateur' : '/login';
+
           console.log(`🔄 Redirection vers: ${redirectPath}`);
-          
+
           hasChecked.current = true;
           setIsLoading(false);
-          
+
           // 🔧 CORRECTION : Éviter la redirection si déjà sur la bonne page
           if (pathname !== redirectPath) {
             router.replace(redirectPath);
@@ -107,13 +107,13 @@ export const useRoleGuard = (requiredRole: UserRole): UseRoleGuardReturn => {
         console.log('✅ Accès autorisé - affichage du contenu');
         setIsAuthorized(true);
         hasChecked.current = true;
-        
+
       } catch (error) {
         console.error('💥 Erreur lors de la vérification des autorisations:', error);
         localStorage.removeItem('token');
         hasChecked.current = true;
         setIsLoading(false);
-        
+
         // 🔧 CORRECTION : Éviter la redirection si déjà sur /login
         if (pathname !== '/login') {
           router.replace('/login');

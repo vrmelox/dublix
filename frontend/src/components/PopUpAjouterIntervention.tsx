@@ -24,7 +24,7 @@ const PopupAjouterIntervention = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [userRole, setUserRole] = useState<string | null>(null);
-  
+
   const [formData, setFormData] = useState({
     typeIntervention: "" as TypeIntervention | "",
     pannesConstatees: "",
@@ -105,7 +105,8 @@ const PopupAjouterIntervention = ({
         dateIntervention: new Date().toISOString()
       };
 
-      const res = await fetch("/api/interventions", {
+      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api$/, '') || 'https://bioqrsuivi.com';
+      const res = await fetch(`${API_BASE_URL}/api/interventions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -121,15 +122,15 @@ const PopupAjouterIntervention = ({
 
       const result = await res.json();
       console.log("Intervention ajoutée avec succès:", result);
-      
+
       alert("Intervention ajoutée avec succès !");
-      
+
       if (onInterventionAdded) {
         onInterventionAdded();
       }
-      
+
       handleClose();
-      
+
     } catch (error) {
       console.error("Erreur:", error);
       setError(error instanceof Error ? error.message : "Erreur lors de l'ajout de l'intervention");
