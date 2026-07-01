@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: dublix_db
+    environment:
+      POSTGRES_USER: dublix_user
+      POSTGRES_PASSWORD: dublix_pwd
+      POSTGRES_DB: dublix_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+    container_name: dublix_backend
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - CLIENT_URL=http://localhost:3000
+      - JWT_SECRET=supersecret_pour_le_dev_local_12345
+      - DATABASE_URL=postgresql://dublix_user:dublix_pwd@db:5432/dublix_db?schema=public
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: dublix_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:4000/api
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  pgdata:
