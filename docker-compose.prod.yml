@@ -36,9 +36,9 @@ services:
     build:
       context: ./frontend
     container_name: dublix_frontend_prod
-    # On bind le port sur l'hôte local uniquement
+    # On bind le port sur 3005 car le port 3000 est déjà pris sur le VPS !
     ports:
-      - "127.0.0.1:3000:3000"
+      - "127.0.0.1:3005:3000"
     environment:
       - NEXT_PUBLIC_API_URL=https://api.bioqrsuivi.com
     depends_on:
