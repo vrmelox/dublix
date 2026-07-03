@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: dublix_db_prod
+    environment:
+      POSTGRES_USER: ${DB_USER:-dublix_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-dublix_pwd}
+      POSTGRES_DB: ${DB_NAME:-dublix_db}
+    # En production, on n'expose generalement pas la BDD sur l'extérieur. 
+    # Elle n'est accessible que depuis les autres conteneurs.
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - pgdata_prod:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+    container_name: dublix_backend_prod
+    # On bind le port sur l'hôte local uniquement pour que Nginx puisse s'y connecter
+    ports:
+      - "127.0.0.1:4000:4000"
+    environment:
+      - PORT=4000
+      - CLIENT_URL=https://bioqrsuivi.com
+      - JWT_SECRET=${JWT_SECRET:-votre_vrai_secret_hyper_securise_en_production}
+      - DATABASE_URL=postgresql://${DB_USER:-dublix_user}:${DB_PASSWORD:-dublix_pwd}@db:5432/${DB_NAME:-dublix_db}?schema=public
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: dublix_frontend_prod
+    # On bind le port sur l'hôte local uniquement
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=https://api.bioqrsuivi.com
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  pgdata_prod:
