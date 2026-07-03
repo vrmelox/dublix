@@ -40,7 +40,7 @@ services:
     ports:
       - "127.0.0.1:3005:3000"
     environment:
-      - NEXT_PUBLIC_API_URL=https://api.bioqrsuivi.com
+      - NEXT_PUBLIC_API_URL=https://bioqrsuivi.com/api
     depends_on:
       - backend
     restart: unless-stopped
